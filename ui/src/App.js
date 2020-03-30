@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import OfferList from './components/OfferList.jsx';
 import VolunteerList from './components/VolunteerList.jsx';
 import PatientList from './components/PatientList.jsx';
-import NavBar from './components/NavBar.jsx';
 import Main from './components/Main.jsx';
 import theme from './theme';
 import api from './api';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from "react-router-dom";
 
+const StyledNav = styled.nav`
+color: ${(props) => props.theme.colors.main};
+background-color: ${(props) => props.theme.colors.secondary};
+display: flex;
+justify-content: space-around;
+padding 1em;
+margin-bottom: 1em;
+`;
+const StyledLink = styled(Link)`
+color: ${(props) => props.theme.colors.main};
+`;
 function App() {
   const [loadingOffers, setLoadingOffers] = useState(true);
   const [loadingPeople, setLoadingPeople] = useState(true);
@@ -33,12 +49,28 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <NavBar />
-        <Main>
-          <OfferList offers={offers}/>
-          <VolunteerList volunteers={people}/>
-          <PatientList patients={people}/>
-        </Main>
+
+        <Router>
+          <StyledNav>
+            <StyledLink to='/offers'>Offers</StyledLink>
+            <StyledLink to='/volunteers'>Volunteers</StyledLink>
+            <StyledLink to='/patients'>Patients</StyledLink>
+          </StyledNav>
+          <Main>
+            <Switch>
+              <Route path="/offers"  >
+                <OfferList offers={offers} />
+              </Route>
+              <Route path="/volunteers">
+                <VolunteerList volunteers={people} />
+              </Route>
+              <Route path="/patients">
+                <PatientList patients={people} />
+              </Route>
+            </Switch>
+          </Main>
+        </Router>
+
       </ThemeProvider>
     </div>
   );
