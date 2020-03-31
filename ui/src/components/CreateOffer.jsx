@@ -1,11 +1,25 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import api from '../api';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+ display: flex;
+ flex-direction: column;
+ background-color: ${(props) => (props.theme.colors.main)};
+ height: 100%;
+ width: 100%;
+`;
+
+const StyledInput = styled.input`
+
+`
+
+
 
 class CreateOffer extends React.Component{
   constructor(props){
     super(props);
-    this.state = {name: '', description: ''};
+    this.state = {name: '', description: '', open:false};
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,7 +31,6 @@ class CreateOffer extends React.Component{
     this.setState({description: event.target.value});
   }
 
-
   handleSubmit(event){
     api.post('offers', {
       name: this.state.name,
@@ -27,51 +40,17 @@ class CreateOffer extends React.Component{
 
   }
   render() {
-    return(
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-        <input type="text" value={this.state.name} onChange={this.handleNameChange} />
-        </label>
-        <label>
-          Description:
-        <input type="text" value={this.state.description} onChange={this.handleDescriptionChange}/>
-        </label>
-        <input type="submit" value="Submit"/>
-      </form>
+    return (
+        <StyledForm onSubmit={this.handleSubmit}>
+          <label for='offerName'> Name </label>
+        <textarea id='offerName' value={this.state.name} onChange={this.handleNameChange}/> 
+          <label for='offerDescription'>Description</label>
+        <textarea id='offerDescription' value={this.state.description} onChange={this.handleDescriptionChange}/>
+          <input type="submit" value="Submit" />
+        </StyledForm>
+
     )
   }
 }
 
-
-/*
-const CreateOffer = (props) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [open, setOpen] = useState(false)
-
-
-  const handleSubmit = function(){
-   
-  }
-
-  if(open){
-  return(
-    <form>
-      <label>
-        Name:
-        <input type="text" value={name.value} onChange={setName}/>
-      </label>
-      <label>
-        Description:
-        <input type="text" value={description.value} onChange={setDescription}/>
-      </label>
-      <button onClick={handleSubmit}>Add</button>
-    </form>
-  )
-  }
-  return (<button onClick={setOpen}>Add Offer</button>)
-}
-*/
-
-export default CreateOffer
+export default CreateOffer;
