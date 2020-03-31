@@ -56,7 +56,6 @@ function App() {
             <StyledLink to='/volunteers'>Volunteers</StyledLink>
             <StyledLink to='/patients'>Patients</StyledLink>
           </StyledNav>
-          <Main>
             <Switch>
               <Route path="/offers"  >
                 <OfferList offers={offers} />
@@ -68,7 +67,6 @@ function App() {
                 <PatientList patients={people} />
               </Route>
             </Switch>
-          </Main>
         </Router>
 
       </ThemeProvider>
