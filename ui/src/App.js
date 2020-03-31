@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import OfferList from './components/OfferList.jsx';
 import VolunteerList from './components/VolunteerList.jsx';
 import PatientList from './components/PatientList.jsx';
-import Main from './components/Main.jsx';
+import Signup from './components/Signup.jsx';
 import theme from './theme';
 import api from './api';
 import {
@@ -55,6 +55,7 @@ function App() {
             <StyledLink to='/offers'>Offers</StyledLink>
             <StyledLink to='/volunteers'>Volunteers</StyledLink>
             <StyledLink to='/patients'>Patients</StyledLink>
+            <StyledLink to='/signup'>Sign up</StyledLink>
           </StyledNav>
             <Switch>
               <Route path="/offers"  >
@@ -65,6 +66,9 @@ function App() {
               </Route>
               <Route path="/patients">
                 <PatientList patients={people} />
+              </Route>
+              <Route path = "/signup">
+                <Signup/>
               </Route>
             </Switch>
         </Router>

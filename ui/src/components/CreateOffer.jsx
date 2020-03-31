@@ -10,12 +10,6 @@ const StyledForm = styled.form`
  width: 100%;
 `;
 
-const StyledInput = styled.input`
-
-`
-
-
-
 class CreateOffer extends React.Component{
   constructor(props){
     super(props);
