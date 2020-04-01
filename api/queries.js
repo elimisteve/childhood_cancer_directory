@@ -1,11 +1,14 @@
-const Pool = require('pg').Pool
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const Pool = require('pg').Pool;
 const pool = new Pool({
   user: 'me',
   host: 'localhost',
   database: 'ccd',
   password: 'password',
   port: 5432,
-})
+});
+
 
 const getPeople = (request, response) => {
     pool.query('SELECT * FROM person ORDER BY id ASC', (error, results) => {
@@ -46,13 +49,19 @@ const getOfferById = (request, response) => {
 }
 
 const addPerson = (request, response) => {
-    const {firstname, lastname, email, password} = request.body;
-    pool.query('INSERT INTO person (firstname, lastname, email, password) VALUES ($1, $2, $3, $4)',[firstname, lastname, email, password], (error ,result) => {
-        if (error){
-            throw error
+    const {firstname, lastname, email, password, location} = request.body;
+    bcrypt.hash(password, saltRounds, (encryptErr, encrypted) => {
+        if(encryptErr){
+            throw err
         }
-        response.status(201).send(`User added with ID: ${result.insertId}`)
-    }) 
+        pool.query('INSERT INTO person (firstname, lastname, email, password, location) VALUES ($1, $2, $3, $4, $5)', [firstname, lastname, email, encrypted, location], (dbError, result) => {
+            if (dbError) {
+                throw dbError
+            }
+            response.status(201).send(`User added with ID: ${result.insertId}`)
+        })
+
+    })
 }
 
 const addOffer = (request, response) => {
