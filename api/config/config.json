@@ -1,0 +1,31 @@
+{
+  "development": {
+    "username": "me",
+    "password": "password",
+    "database": "ccd",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "define" : {
+      "freezeTableName": true
+    }
+  },
+  "test": {
+    "username": "me",
+    "password": "password",
+    "database": "ccd",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "freezeTableName": true
+  },
+  "production": {
+    "username": "me",
+    "password": "password",
+    "database": "ccd",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "freezeTableName": true
+  }
+}
