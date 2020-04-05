@@ -6,8 +6,8 @@ const StyledForm = styled.form`
  display: flex;
  flex-direction: column;
  background-color: ${(props) => (props.theme.colors.main)};
- height: 100%;
- width: 100%;
+ padding-left: 2.5rem;
+ padding-right: 2.5rem;
 `;
 
 class CreateOffer extends React.Component{
@@ -31,7 +31,6 @@ class CreateOffer extends React.Component{
       description: this.state.description,
     })
     event.preventDefault();
-
   }
   render() {
     return (
