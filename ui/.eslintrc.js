@@ -1,4 +1,7 @@
 module.exports = {
   extends: ['airbnb-base', 'plugin:react/recommended'],
-  parser: 'babel-eslint'
+  parser: 'babel-eslint',
+  globals: {
+    localStorage: true,
+  }
 };

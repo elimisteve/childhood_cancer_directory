@@ -7,12 +7,10 @@ const StyledDiv = styled.div``;
 
 const VolunteerList = (props) => (
   <StyledDiv>
-    {console.log("VOLUNTEERS", props.volunteers)}
     {props.volunteers.map((volunteer) => (
       <Volunteer
-        key={volunteer.id} firstname={volunteer.firstname}
-        lastname={volunteer.lastname}
-        location={volunteer.location} />
+        key={volunteer.id} name={volunteer.name}
+                location={volunteer.location} />
     ))}
   </StyledDiv>
 );

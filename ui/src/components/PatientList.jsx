@@ -9,8 +9,7 @@ const PatientList = (props) => (
   <StyledDiv>
     {props.patients.map((patient) => (
       <Patient
-        key={patient.id} firstname={patient.firstname}
-        lastname={patient.lastname}
+        key={patient.id} name={patient.name}
         location={patient.location} />
     ))}
   </StyledDiv>

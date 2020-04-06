@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useCookies } from 'react-cookie';
 import api from '../api';
 
 const StyledForm = styled.form`
@@ -15,46 +14,42 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '', lastName: '', email: '', password: '', passwordConf: '', location: '',
+      name: '', username: '', password: '', passwordConf: '', location: '',
     };
   }
 
-  handleFirstNameChange = (event) => {
-    this.setState({ firstName: event.target.value });
+  handleNameChange = (event) => {
+    this.setState({ name: event.target.value });
   }
 
-  handleLastNameChange = (event) => {
-    this.setState({ lastName: event.target.value });
-  }
 
-  handleEmailChange = (event) => {
-    this.setState({ email: event.target.value });
+  handleUsernameChange = (event) => {
+    this.setState({ username: event.target.value });
   }
 
   handlePasswordChange = (event) => {
     this.setState({ password: event.target.value });
   }
 
-  handleLocationChange = (event) => {
-    this.setState({ location: event.target.value });
-  }
 
   handlePasswordConfChange = (event) => {
     this.setState({ passwordConf: event.target.value });
   }
 
+  handleLocationChange = (event) => {
+    this.setState({ location: event.target.value });
+  }
+
   handleSubmit = (event) => {
     api.post('/signup', {
-      firstname: this.state.firstName,
-      lastname: this.state.lastName,
-      email: this.state.email,
+      name: this.state.name,
+      username: this.state.username,
       password: this.state.password,
       location: this.state.location,
     }).then((response) =>{
-
-
+      console.log('RESPONSE', response);
+      sessionStorage.setItem('token', `JWT  + ${response.data.token}`);
     }).catch((error) => {
-
     });
     event.preventDefault();
   }
@@ -63,21 +58,19 @@ class Signup extends React.Component {
   render() {
     return (
       <StyledForm onSubmit={this.handleSubmit}>
-        <label for='signupFirstname'>First Name</label>
-        <input type='text' id='singupFirstname' value={this.state.firstName} onChange={this.handleFirstNameChange} />
-        <label for='signupLastname'>Last Name</label>
-        <input type='text' id='signupLastname' value={this.state.lastName} onChange={this.handleLastNameChange} />
-        <label for='signupLocation'>Location</label>
+        <label htmlFor='signupName'>Name</label>
+        <input type='text' id='signupName' value={this.state.lastName} onChange={this.handleNameChange} />
+        <label htmlFor='signupLocation'>Location</label>
         <input type='text' id='signupLocation' value={this.state.location} onChange={this.handleLocationChange} />
-        <label for='signupEmail'>Email</label>
-        <input type='email' id='signupEmail' value={this.state.email} onChange={this.handleEmailChange} />
-        <label for='signupPassword'>Password</label>
+        <label htmlFor='signupUsername'>Email</label>
+        <input type='email' id='signupUsername' value={this.state.username} onChange={this.handleUsernameChange} />
+        <label htmlFor='signupPassword'>Password</label>
         <input type='password' id='signupPassword' value={this.state.password} onChange={this.handlePasswordChange} />
-        <label for='signupPasswordConf'>Confirm Password</label>
+        <label htmlFor='signupPasswordConf'>Confirm Password</label>
         <input type='password' id='signupPasswordConf' value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
         <input type="submit" />
       </StyledForm>
-    )
+    );
   }
 
 
