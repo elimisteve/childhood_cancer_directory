@@ -16,7 +16,7 @@ router.post('/signup', function(req, res) {
       patient: req.body.patient,
       volunteer: req.body.volunteer,
     }).then((person) =>{
-      var token = jwt.sign(JSON.parse(JSON.stringify(person)), secret, { expiresIn: 86400 * 30 })
+      var token = jwt.sign(JSON.parse(JSON.stringify(person)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
       res.cookie('bearer', 'JWT ' + token)
       res.status(201).send({"person" : person, "token": "JWT " + token } )
   })
@@ -40,7 +40,7 @@ router.post('/signin', (req,res) => {
     }
     person.comparePassword(req.body.password, (err, isMatch) => {
       if(isMatch && !err) {
-        var token = jwt.sign(JSON.parse(JSON.stringify(person)), secret, {expiresIn: 86400*30})
+        var token = jwt.sign(JSON.parse(JSON.stringify(person)), 'nodeauthsecret', {expiresIn: 86400*30})
         jwt.verify(token, secret, function(err, data){
           console.log(err, data);
         })

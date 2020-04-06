@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const router = express.Router();
+require('../config/passport')(passport);
 const Offer = require('../models').offer;
 const secret = require('../config/authSecret');
 const getToken = require('../utils').getToken;
@@ -30,9 +31,7 @@ router.get('/offers', function(req, res){
     })
   })
 
-router.post('/offers', function(req, res){
-  const token = getToken(req.cookies.bearer)
-  if (jwt.verify(token, secret)) {
+router.post('/offers', passport.authenticate('jwt', { session: false}), function(req, res){
     const { name, description } = req.body;
     if(!name || !description){
       return res.status(400).send("Must provide name and description")
@@ -46,8 +45,5 @@ router.post('/offers', function(req, res){
       console.log(error);
     })
   }
-  else{
-    res.status(401).send({ success: false, msg: 'Failure: Unknown user' });
-  }
-})
+)
 module.exports = router;
