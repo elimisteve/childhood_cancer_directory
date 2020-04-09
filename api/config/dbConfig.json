@@ -17,15 +17,19 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false,
-    "freezeTableName": true
+    "define" : {
+      "freezeTableName": true
+    }
   },
   "production": {
-    "username": "me",
-    "password": "password",
+    "username": "postgres",
+    "password": "drpepper23",
     "database": "ccd",
-    "host": "127.0.0.1",
+    "host": "ccd.c0jga56f9zmx.us-west-1.rds.amazonaws.com",
     "dialect": "postgres",
     "operatorsAliases": false,
-    "freezeTableName": true
+    "define" : {
+      "freezeTableName": true
+    }
   }
 }

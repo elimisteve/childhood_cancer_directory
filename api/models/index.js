@@ -1,11 +1,10 @@
 'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config/dbConfig.json')[env];
 const db = {};
 
 let sequelize;
@@ -15,7 +14,7 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-sequelize.authenticate().then(result => console.log("success"), error => console.log('error'))
+sequelize.authenticate().then(result => console.log('DB connection: Success'), error => console.log('DB connection: Error'))
 
 fs
   .readdirSync(__dirname)
