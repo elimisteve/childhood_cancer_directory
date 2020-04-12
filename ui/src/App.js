@@ -29,9 +29,9 @@ color: ${(props) => props.theme.colors.main};
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [offers, setOffers] = useState(null);
-  const [patients, setPatients] = useState(null);
-  const [volunteers, setVolunteers] = useState(null);
+  const [offers, setOffers] = useState([]);
+  const [patients, setPatients] = useState([]);
+  const [volunteers, setVolunteers] = useState([]);
 
   useEffect(() => {
     const promises = [];
@@ -66,8 +66,9 @@ function App() {
               <StyledLink to='/offers'>Offers</StyledLink>
               <StyledLink to='/volunteers'>Volunteers</StyledLink>
               <StyledLink to='/patients'>Patients</StyledLink>
-              <StyledLink to='/signup'>Sign up</StyledLink>
-              <StyledLink to='/login'>Sign in</StyledLink>
+              {!('token' in sessionStorage) && <StyledLink to='/signup'>Sign Up</StyledLink>}
+              {!('token' in sessionStorage) && <StyledLink to='/signin'>Sign in</StyledLink>}
+              {'token' in sessionStorage && <StyledLink to='/signup'>My Profile</StyledLink>}
             </StyledNav>
             <Switch>
               <Route path="/offers">
@@ -82,7 +83,7 @@ function App() {
               <Route path="/signup">
                 <Signup />
               </Route>
-              <Route path='/login'>
+              <Route path='/signin'>
                 <Signin />
               </Route>
             </Switch>

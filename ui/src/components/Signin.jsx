@@ -14,7 +14,7 @@ class Login extends React.Component {
       password: this.state.password,
     }).then((response) => {
       console.log('login respoine', response);
-      sessionStorage.setItem('token',  response.data.token);
+      sessionStorage.setItem('token', response.data.token);
     });
     event.preventDefault();
   }

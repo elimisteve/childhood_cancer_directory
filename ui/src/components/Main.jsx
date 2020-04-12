@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
 
 const StyledMain = styled.main`
 background-color: ${(props) => props.theme.colors.main};
@@ -15,7 +14,7 @@ const Main = (props) => {
     <StyledMain>
       {props.children}
     </StyledMain>
-  )
+  );
 };
 
 
