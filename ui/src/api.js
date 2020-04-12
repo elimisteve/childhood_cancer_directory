@@ -1,7 +1,16 @@
 import axios from 'axios';
 
-const url = 'http://localhost:3000';
+const apiUrl = 'http://localhost:3000';
 
-export default axios.create({
-  baseURL: url,
+const apiObj = axios.create({
+  baseURL: apiUrl,
 });
+apiObj.interceptors.request.use((config) => {
+  if ('token' in sessionStorage) {
+    config.headers.Authorization = sessionStorage.token;
+  }
+  return config;
+});
+
+
+export default apiObj;

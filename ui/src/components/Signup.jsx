@@ -48,7 +48,7 @@ class Signup extends React.Component {
       location: this.state.location,
     }).then((response) =>{
       console.log('RESPONSE', response);
-      sessionStorage.setItem('token', `JWT  + ${response.data.token}`);
+      sessionStorage.setItem('token', response.data.token);
     }).catch((error) => {
     });
     event.preventDefault();

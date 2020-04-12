@@ -10,28 +10,31 @@ const StyledForm = styled.form`
  padding-right: 2.5rem;
 `;
 
-class CreateOffer extends React.Component{
-  constructor(props){
+class CreateOffer extends React.Component {
+  constructor(props) {
     super(props);
-    this.state = {name: '', description: '', open:false};
+    this.state = {name: '', description: '', open: false};
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleNameChange(event){
-    this.setState({name: event.target.value});
-  }
-  handleDescriptionChange(event){
-    this.setState({description: event.target.value});
+
+  handleNameChange(event) {
+    this.setState({ name: event.target.value });
   }
 
-  handleSubmit(event){
+  handleDescriptionChange(event) {
+    this.setState({ description: event.target.value });
+  }
+
+  handleSubmit(event) {
     api.post('offers', {
       name: this.state.name,
       description: this.state.description,
-    })
+    });
     event.preventDefault();
   }
+
   render() {
     return (
         <StyledForm onSubmit={this.handleSubmit}>

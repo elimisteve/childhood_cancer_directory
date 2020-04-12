@@ -17,7 +17,6 @@ router.post('/signup', function(req, res) {
       volunteer: req.body.volunteer,
     }).then((person) =>{
       var token = jwt.sign(JSON.parse(JSON.stringify(person)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
-      res.cookie('bearer', 'JWT ' + token)
       res.status(201).send({"person" : person, "token": "JWT " + token } )
   })
     .catch((error) => {
@@ -44,7 +43,6 @@ router.post('/signin', (req,res) => {
         jwt.verify(token, secret, function(err, data){
           console.log(err, data);
         })
-        res.cookie('bearer', 'JWT ' + token)
         res.json({success: true, token: 'JWT ' + token});
       } else {
         res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});

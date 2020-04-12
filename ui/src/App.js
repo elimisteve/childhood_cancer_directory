@@ -10,7 +10,7 @@ import { CookiesProvider } from 'react-cookie';
 import OfferList from './components/OfferList.jsx';
 import VolunteerList from './components/VolunteerList.jsx';
 import PatientList from './components/PatientList.jsx';
-import Login from './components/Login.jsx';
+import Signin from './components/Signin.jsx';
 import Signup from './components/Signup.jsx';
 import theme from './theme';
 import api from './api';
@@ -36,20 +36,17 @@ function App() {
   useEffect(() => {
     const promises = [];
     promises.push(api.get('/offers').then((response) => {
-      console.log("OFFERS", response.data)
       setOffers(response.data);
     }).catch((error) => {
-      console.log(error)
+      console.log(error);
     }));
     promises.push(api.get('/patients').then((response) => {
       setPatients(response.data);
     }).catch((error) => {
-      console.log(error)
     }));
     promises.push(api.get('/volunteers').then((response) => {
       setVolunteers(response.data);
     }).catch((error) => {
-      console.log(error)
     }));
     Promise.all(promises).then((result) => {
       setLoading(false);
@@ -70,7 +67,7 @@ function App() {
               <StyledLink to='/volunteers'>Volunteers</StyledLink>
               <StyledLink to='/patients'>Patients</StyledLink>
               <StyledLink to='/signup'>Sign up</StyledLink>
-              <StyledLink to='/login'>Login</StyledLink>
+              <StyledLink to='/login'>Sign in</StyledLink>
             </StyledNav>
             <Switch>
               <Route path="/offers">
@@ -86,7 +83,7 @@ function App() {
                 <Signup />
               </Route>
               <Route path='/login'>
-                <Login />
+                <Signin />
               </Route>
             </Switch>
           </Router>
