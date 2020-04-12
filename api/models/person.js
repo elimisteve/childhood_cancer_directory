@@ -4,10 +4,10 @@ module.exports = (sequelize, DataTypes) => {
   const person = sequelize.define('person', {
     name: DataTypes.STRING,
     username: DataTypes.STRING,
-    password: DataTypes.STRING,
     location: DataTypes.STRING,
     patient: DataTypes.BOOLEAN,
-    volunteer: DataTypes.BOOLEAN
+    volunteer: DataTypes.BOOLEAN,
+    password: DataTypes.STRING,
   }, {});
   person.beforeSave((person, options) => {
     if(person.changed('password')){
