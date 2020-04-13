@@ -6,11 +6,7 @@ import {
   Route,
 } from 'react-router-dom';
 import Navigation from './components/Navigation.jsx';
-import OfferList from './components/OfferList.jsx';
-import VolunteerList from './components/VolunteerList.jsx';
-import PatientList from './components/PatientList.jsx';
-import Signin from './components/Signin.jsx';
-import Signup from './components/Signup.jsx';
+import routes from './routes';
 import theme from './theme';
 
 function App() {
@@ -20,21 +16,14 @@ function App() {
           <Router>
             <Navigation/>
             <Switch>
-              <Route path="/offers">
-                <OfferList/>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}>
+                {route.component}
               </Route>
-              <Route path="/volunteers">
-                <VolunteerList/>
-              </Route>
-              <Route path="/patients">
-                <PatientList/>
-              </Route>
-              <Route path="/signup">
-                <Signup />
-              </Route>
-              <Route path='/signin'>
-                <Signin />
-              </Route>
+            ))}
             </Switch>
           </Router>
       </ThemeProvider>

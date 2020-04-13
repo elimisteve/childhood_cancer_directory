@@ -22,7 +22,7 @@ const Navigation = () => (
     <StyledLink to='/offers'>Offers</StyledLink>
     <StyledLink to='/volunteers'>Volunteers</StyledLink>
     <StyledLink to='/patients'>Patients</StyledLink>
-    {!('token' in sessionStorage) && <StyledLink to='/signup'>Sign Up</StyledLink>}
+    {!('token' in sessionStorage) && <StyledLink to='/signup'>Sign up</StyledLink>}
     {!('token' in sessionStorage) && <StyledLink to='/signin'>Sign in</StyledLink>}
     {'token' in sessionStorage && <StyledLink to='/signup'>My Profile</StyledLink>}
   </StyledNav>
