@@ -28,35 +28,6 @@ color: ${(props) => props.theme.colors.main};
 `;
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [offers, setOffers] = useState([]);
-  const [patients, setPatients] = useState([]);
-  const [volunteers, setVolunteers] = useState([]);
-
-  useEffect(() => {
-    const promises = [];
-    promises.push(api.get('/offers').then((response) => {
-      setOffers(response.data);
-    }).catch((error) => {
-      console.log(error);
-    }));
-    promises.push(api.get('/patients').then((response) => {
-      setPatients(response.data);
-    }).catch((error) => {
-    }));
-    promises.push(api.get('/volunteers').then((response) => {
-      setVolunteers(response.data);
-    }).catch((error) => {
-    }));
-    Promise.all(promises).then((result) => {
-      setLoading(false);
-    }).catch((error) => {
-    });
-  }, []);
-
-  if (loading) {
-    return <div>loading</div>;
-  }
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -72,13 +43,13 @@ function App() {
             </StyledNav>
             <Switch>
               <Route path="/offers">
-                <OfferList offers={offers} />
+                <OfferList/>
               </Route>
               <Route path="/volunteers">
-                <VolunteerList volunteers={volunteers} />
+                <VolunteerList/>
               </Route>
               <Route path="/patients">
-                <PatientList patients={patients} />
+                <PatientList/>
               </Route>
               <Route path="/signup">
                 <Signup />

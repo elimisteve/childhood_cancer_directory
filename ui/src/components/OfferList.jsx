@@ -12,6 +12,7 @@ import api from '../api';
 const OfferList = () => {
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     api.get('/offers').then((response) => {
       setOffers(response.data);

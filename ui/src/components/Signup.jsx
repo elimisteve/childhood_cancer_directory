@@ -41,6 +41,7 @@ class Signup extends React.Component {
   }
 
   handleSubmit = (event) => {
+    event.preventDefault();
     api.post('/signup', {
       name: this.state.name,
       username: this.state.username,
@@ -51,7 +52,6 @@ class Signup extends React.Component {
       sessionStorage.setItem('token', response.data.token);
     }).catch((error) => {
     });
-    event.preventDefault();
   }
 
 
