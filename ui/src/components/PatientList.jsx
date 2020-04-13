@@ -1,22 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Patient from './Patient.jsx';
+import api from '../api';
 
 const StyledDiv = styled.div``;
 
-const PatientList = (props) => (
-  <StyledDiv>
-    {props.patients.map((patient) => (
-      <Patient
-        key={patient.id} name={patient.name}
-        location={patient.location} />
-    ))}
-  </StyledDiv>
-);
+const PatientList = () => {
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-PatientList.propTypes = {
-  patients: PropTypes.array.isRequired,
+  useEffect(() => {
+    api.get('/patients').then((response) => {
+      setPatients(response.data);
+      setLoading(false);
+    });
+  }, []);
+
+  if (!loading) {
+    return (
+      <StyledDiv>
+        {patients.map((patient) => (
+          <Patient
+            key={patient.id} name={patient.name}
+            location={patient.location} />
+        ))}
+      </StyledDiv>
+    );
+  }
+  return (<div>loading</div>);
 };
-
 export default PatientList;
