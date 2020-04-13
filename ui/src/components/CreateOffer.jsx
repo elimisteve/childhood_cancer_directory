@@ -1,6 +1,6 @@
 import React from 'react';
-import api from '../api';
 import styled from 'styled-components';
+import api from '../api';
 
 const StyledForm = styled.form`
  display: flex;
@@ -13,7 +13,7 @@ const StyledForm = styled.form`
 class CreateOffer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {name: '', description: '', open: false};
+    this.state = { name: '', description: '', open: false };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,14 +38,13 @@ class CreateOffer extends React.Component {
   render() {
     return (
         <StyledForm onSubmit={this.handleSubmit}>
-          <label for='offerName'> Name </label>
+          <label htmlFor='offerName'> Name </label>
         <textarea id='offerName' value={this.state.name} onChange={this.handleNameChange}/> 
-          <label for='offerDescription'>Description</label>
+          <label htmlFor='offerDescription'>Description</label>
         <textarea id='offerDescription' value={this.state.description} onChange={this.handleDescriptionChange}/>
           <input type="submit" value="Submit" />
         </StyledForm>
-
-    )
+    );
   }
 }
 
