@@ -1,0 +1,9 @@
+sequelize model:generate --name user --attributes username:string,name:string,location:string,description:string,password:string
+
+sequelize model:generate --name volunteer --attributes user_id:integer
+
+sequelize model:generate --name patient --attributes user_id:integer
+
+sequelize model:generate --name help_type --attributes name:string,description:string
+
+sequelize model:generate --name offer --attributes name:string,description:string
