@@ -14,14 +14,6 @@ module.exports = {
        queryInterface.createTable(
          'volunteer_help_type',
          {
-           createdAt: {
-             allowNull: false,
-             type: Sequelize.DATE,
-           },
-           updatedAt: {
-             allowNull: false,
-             type: Sequelize.DATE,
-           },
            volunteer_id: {
              type: Sequelize.INTEGER,
              primaryKey: true,
@@ -43,14 +35,6 @@ module.exports = {
        queryInterface.createTable(
          'patient_help_type',
          {
-           createdAt: {
-             allowNull: false,
-             type: Sequelize.DATE,
-           },
-           updatedAt: {
-             allowNull: false,
-             type: Sequelize.DATE,
-           },
            patient_id: {
              type: Sequelize.INTEGER,
              primaryKey: true,
