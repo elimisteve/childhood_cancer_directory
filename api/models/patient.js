@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   patient.associate = function(models) {
     // associations can be defined here
     patient.belongsTo(models.user);
+    patient.belongsToMany(models.volunteer, {through: 'patient_volunteer'});
   };
   return patient;
 };

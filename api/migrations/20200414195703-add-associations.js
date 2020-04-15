@@ -52,6 +52,27 @@ module.exports = {
              }
            }
          }
+       ),
+       queryInterface.createTable(
+         'patient_volunteer',
+         {
+           patient_id: {
+             type: Sequelize.INTEGER,
+             primaryKey: true,
+             references:{
+               model: 'patient',
+               key: 'id'
+             },
+           },
+           volunteer_id: {
+             type: Sequelize.INTEGER,
+             primaryKey: true,
+             references:{
+               model: 'volunteer',
+               key:'id'
+             }
+           }
+         }
        )
      ])
    })
@@ -67,7 +88,8 @@ module.exports = {
     */
    return Promise.all([
      queryInterface.dropTable('volunteer_help_type'),
-     queryInterface.dropTable('patient_help_type')
+     queryInterface.dropTable('patient_help_type'),
+     queryInterface.dropTable('patient_volunteer'),
    ])
   }
 };
