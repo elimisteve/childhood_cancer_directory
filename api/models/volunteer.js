@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   volunteer.associate = function(models) {
     // associations can be defined here
+    volunteer.belongsTo(models.user);
   };
   return volunteer;
 };

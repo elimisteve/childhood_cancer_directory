@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   help_type.associate = function(models) {
     // associations can be defined here
+    help_type.belongsToMany(models.volunteer, {through: 'volunteer_help_type'});
+    help_type.belongsToMany(models.patient, {through: 'patient_help_type'});
   };
   return help_type;
 };

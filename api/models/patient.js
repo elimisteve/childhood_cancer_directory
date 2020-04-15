@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   patient.associate = function(models) {
     // associations can be defined here
+    patient.belongsTo(models.user);
   };
   return patient;
 };

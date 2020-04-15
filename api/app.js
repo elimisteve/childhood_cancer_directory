@@ -7,7 +7,7 @@ var cors = require('cors');
 require('dotenv').config();
 
 var offerRouter = require('./routes/offer');
-var personRouter = require('./routes/person');
+var userRouter = require('./routes/user');
 
 var app = express();
 
@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use(offerRouter);
-app.use(personRouter);
+app.use(userRouter);
 
 
 

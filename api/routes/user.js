@@ -1,7 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-const Person = require('../models').person;
+const User= require('../models').user
+const Volunteer = require('../models').volunteer;
 const secret = require('../config/authSecret');
 
 router.post('/signup', function(req, res) {
@@ -9,15 +10,14 @@ router.post('/signup', function(req, res) {
   if(!req.body.username || !req.body.password || !req.body.location){
     res.status(400).send({msg: "Must at least post username, password, and location"})
   }else{
-    Person.create({
-      username: req.body.username,
+    User.create({
+      user_name: req.body.username,
       password: req.body.password,
       location: req.body.location,
-      patient: req.body.patient,
-      volunteer: req.body.volunteer,
-    }).then((person) =>{
-      var token = jwt.sign(JSON.parse(JSON.stringify(person)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
-      res.status(201).send({"person" : person, "token": "JWT " + token } )
+      description: req.body.description,
+    }).then((user) =>{
+      var token = jwt.sign(JSON.parse(JSON.stringify(user)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
+      res.status(201).send({"user" : user, "token": "JWT " + token } )
   })
     .catch((error) => {
       console.log(error);
@@ -27,19 +27,19 @@ router.post('/signup', function(req, res) {
 });
 
 router.post('/signin', (req,res) => {
-  Person.findOne({
+  User.findOne({
     where:{
       username: req.body.username
     }
-  }).then((person) => {
-    if(!person){
+  }).then((user) => {
+    if(!user){
       return res.status(401).send({
         msg: 'Username not found'
       })
     }
-    person.comparePassword(req.body.password, (err, isMatch) => {
+    User.comparePassword(req.body.password, (err, isMatch) => {
       if(isMatch && !err) {
-        var token = jwt.sign(JSON.parse(JSON.stringify(person)), 'nodeauthsecret', {expiresIn: 86400*30})
+        var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 86400*30})
         jwt.verify(token, secret, function(err, data){
           console.log(err, data);
         })
@@ -53,10 +53,11 @@ router.post('/signin', (req,res) => {
 })
 
 router.get('/volunteers', (req,res) => {
-  Person.findAll({
-    where:{
-      volunteer: '1'
-    }
+  User.findAll({
+    include: [{
+      model: Volunteer,
+      required: true,
+    }]
   }).then((volunteers) =>{
     return res.status(200).send(volunteers)
   }).catch((error) => {
@@ -66,10 +67,11 @@ router.get('/volunteers', (req,res) => {
 })
 
 router.get('/patients', (req, res) => {
-  Person.findAll({
-    where: {
-      patient: '1' 
-    }
+  User.findAll({
+    include: [{
+      model: user,
+      required: true,
+    }]
   }).then((patients) => {
     return res.status(200).send(patients)
   }).catch((error) => {
