@@ -19,7 +19,7 @@ module.exports = {
              primaryKey: true,
              references:{
                model: 'volunteer',
-               key: 'id'
+               key: 'user_id'
              }
            },
            help_type_id: {
@@ -40,7 +40,7 @@ module.exports = {
              primaryKey: true,
              references:{
                model: 'patient',
-               key: 'id'
+               key: 'user_id'
              }
            },
            help_type_id: {
@@ -61,7 +61,7 @@ module.exports = {
              primaryKey: true,
              references:{
                model: 'patient',
-               key: 'id'
+               key: 'user_id'
              },
            },
            volunteer_id: {
@@ -69,7 +69,7 @@ module.exports = {
              primaryKey: true,
              references:{
                model: 'volunteer',
-               key:'id'
+               key:'user_id'
              }
            }
          }
