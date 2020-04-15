@@ -1,0 +1,115 @@
+INSERT INTO help_type (name, description, created_at, updated_at) VALUES
+	('Pet care', 'help walking a dog, and general pet care', '10-10-10', '10-10-10'),
+	('Groceries', 'Help with going to the store to buy groceries', '10-10-10', '10-10-10'),
+	('Cleaning', 'help with cleaning the house', '10-10-10', '10-10-10'),
+	('Lawn Care', 'Help with mowing, edging, gardening','10-10-10', '10-10-10'),
+	('Emotional Support', 'Someone to talk to', '10-10-10', '10-10-10'),
+	('Transportation', 'Help with basic transportation', '10-10-10', '10-10-10'),
+	('Child Care', 'Help with watching children', '10-10-10',' 10-10-10'),
+	('Cooking', 'Help preparing food', '10-10-10', '10-10-10')
+
+INSERT INTO offer (name, description, created_at, updated_at) VALUES
+	('College Scholarship', '$20,000 scholarship', '10-10-10', '10-10-10'),
+	('Car discount', '$500 towards a new car', '10-10-10', '10-10-10'),
+	('Travel voucher', '$1000 towards plane travel', '10-10-10', '10-10-10'),
+	('Medical bill help', '$5000 towards medical bills', '10-10-10', '10-10-10')
+
+INSERT INTO public.user (user_name, name, location, description, password, created_at, updated_at) VALUES
+	('ian@gmail.com', 'Ian Niklason', 'Salt lake city', 'some guy', 'FAKED', '10-10-10', '10-10-10'),
+	('bob@gmail.com', 'Bob Hope', 'Denver', 'some guy', 'FAKED', '10-10-10', '10-10-10'),
+	('tom@gmail.com', 'Tom Jones', 'Rhode Island',  'some guy','FAKED', '10-10-10', '10-10-10'),
+	('jim@gmail.com', 'Jim Thompson', 'Salt lake city', 'some guy', 'FAKED', '10-10-10', '10-10-10'),
+	('bill@gmail.com', 'William Hicks', 'San Diego', 'some guy', 'FAKED', '10-10-10', '10-10-10'),
+	('hope@gmail.com', 'Hope Hopeful', 'San Diego', 'some guy', 'FAKED', '10-10-10', '10-10-10'),
+	('kate@gmail.com', 'Kate ME', 'San Fransisco', 'some guy', 'FAKED', '10-10-10', '10-10-10'),
+	('kwat@gmail.com', 'Kwat ME', 'San Fransisco',  'some guy','FAKED', '10-10-10', '10-10-10'),
+	('jill@gmail.com', 'Jill Kosgrove', 'San Fransisco',  'some guy','FAKED', '10-10-10', '10-10-10'),
+	('jane@gmail.com', 'Jane Mohr', 'San Diego', 'some guy', 'FAKED', '10-10-10', '10-10-10'),
+	('joan@gmail.com', 'Joan Hill', 'San Fransisco', 'some guy', 'FAKED', '10-10-10', '10-10-10')
+	
+INSERT INTO patient (user_id, created_at, updated_at) VALUES
+	((SELECT id FROM public.user WHERE user_name = 'ian@gmail.com' LIMIT 1), '10-10-10', '10-10-10'),
+	((SELECT id FROM public.user WHERE user_name = 'bob@gmail.com' LIMIT 1), '10-10-10', '10-10-10'),
+	((SELECT id FROM public.user WHERE user_name = 'kate@gmail.com' LIMIT 1), '10-10-10', '10-10-10')
+	
+INSERT INTO volunteer (user_id, created_at, updated_at) VALUES
+	((SELECT id FROM public.user WHERE user_name = 'tom@gmail.com' LIMIT 1), '10-10-10', '10-10-10'),
+	((SELECT id FROM public.user WHERE user_name = 'kwat@gmail.com' LIMIT 1), '10-10-10', '10-10-10'),
+	((SELECT id FROM public.user WHERE user_name = 'joan@gmail.com' LIMIT 1), '10-10-10', '10-10-10'),
+	((SELECT id FROM public.user WHERE user_name = 'jill@gmail.com' LIMIT 1), '10-10-10', '10-10-10'),
+	((SELECT id FROM public.user WHERE user_name = 'hope@gmail.com' LIMIT 1), '10-10-10', '10-10-10'),
+	((SELECT id FROM public.user WHERE user_name = 'bill@gmail.com' LIMIT 1), '10-10-10', '10-10-10'),
+	((SELECT id FROM public.user WHERE user_name = 'jim@gmail.com' LIMIT 1), '10-10-10', '10-10-10')
+	
+INSERT INTO patient_volunteer (volunteer_id, patient_id) VALUES
+	(
+	(SELECT user_id FROM 
+	  volunteer v JOIN public.user u ON v.user_id = u.id
+	 WHERE u.user_name = 'tom@gmail.com')
+	,
+	 (SELECT user_id FROM
+	   patient p JOIN public.user u ON p.user_id = u.id
+	  WHERE u.user_name = 'ian@gmail.com'
+	 )
+	),
+	(
+	(SELECT user_id FROM 
+	  volunteer v JOIN public.user u ON v.user_id = u.id
+	 WHERE u.user_name = 'joan@gmail.com')
+	,
+	 (SELECT user_id FROM
+	   patient p JOIN public.user u ON p.user_id = u.id
+	  WHERE u.user_name = 'bob@gmail.com'
+	 )
+	),
+	(
+	(SELECT user_id FROM 
+	  volunteer v JOIN public.user u ON v.user_id = u.id
+	 WHERE u.user_name = 'hope@gmail.com')
+	,
+	 (SELECT user_id FROM
+	   patient p JOIN public.user u ON p.user_id = u.id
+	  WHERE u.user_name = 'ian@gmail.com'
+	 )
+	)
+
+INSERT INTO patient_help_type (patient_id, help_type_id) VALUES
+	(
+	(SELECT user_id from 
+	 patient p JOIN public.user u on p.user_id = u.id
+	WHERE u.user_name = 'ian@gmail.com')
+	,
+	(SELECT id FROM help_type h 
+	 WHERE h.name = 'Pet care'
+	)
+	),
+	(
+	(SELECT user_id from 
+	 patient p JOIN public.user u on p.user_id = u.id
+	WHERE u.user_name = 'ian@gmail.com')
+	,
+	(SELECT id FROM help_type h 
+	 WHERE h.name = 'Groceries'
+	)
+	),
+	(
+	(SELECT user_id from 
+	 patient p JOIN public.user u on p.user_id = u.id
+	WHERE u.user_name = 'ian@gmail.com')
+	,
+	(SELECT id FROM help_type h 
+	 WHERE h.name = 'Cleaning'
+	)
+	)
+
+INSERT INTO volunteer_help_type (volunteer_id, help_type_id) VALUES
+	(
+	(SELECT user_id from 
+	 volunteer v JOIN public.user u on v.user_id = u.id
+	WHERE u.user_name = 'tom@gmail.com')
+	,
+	(SELECT id FROM help_type h 
+	 WHERE h.name = 'Pet care'
+	)
+	)
+	
