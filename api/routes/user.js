@@ -55,6 +55,7 @@ router.post('/signin', (req,res) => {
 
 router.get('/volunteers', (req,res) => {
   User.findAll({
+    attributes: ['name', 'location', 'user_name', 'description'],
     include: [{
       model: Volunteer,
       required: true,
@@ -70,7 +71,7 @@ router.get('/volunteers', (req,res) => {
 
 router.get('/patients', (req, res) => {
   User.findAll({
-    attributes: ['name', 'location', 'user_name'],
+    attributes: ['name', 'location', 'user_name', 'description'],
     include: [{
       model: Patient,
       required: true,
