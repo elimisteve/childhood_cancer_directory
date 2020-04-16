@@ -8,6 +8,7 @@ require('dotenv').config();
 
 var offerRouter = require('./routes/offer');
 var userRouter = require('./routes/user');
+var helpRouter = require('./routes/help_type');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(cors());
 
 app.use(offerRouter);
 app.use(userRouter);
+app.use(helpRouter);
 
 
 
