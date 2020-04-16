@@ -89,7 +89,7 @@ router.get('/patients', (req, res) => {
 router.get('/patients/:id', function(req, res){
   const id = parseInt(req.params.id);
   if(isNaN(id)){
-    return res.status(400).send("not a valid patient Id");
+    return res.status(400).send("not a valid Id");
   }
   User.findOne({
     where: {
@@ -101,9 +101,23 @@ router.get('/patients/:id', function(req, res){
   }).catch((error) => {
     return res.status(400).send("error fetching patient");
   })
-
-
 })
 
+router.get('/volunteers/:id', function(req, res) {
+  const id = parseInt(req.params.id);
+  if(isNaN(id)){
+    return res.status(400).send("not a valid Id");
+  }
+  User.findOne({
+    where: {
+      id: id
+    },
+    attributes: ['id', 'name', 'location', 'user_name', 'description'], //TODO; get help types associated with patient
+  }).then((volunteer) => {
+    return res.status(200).send(volunteer)
+  }).catch((error) => {
+    return res.status(400).send("error fetching volunteer");
+  })
+})
 
 module.exports = router;
