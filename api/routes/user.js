@@ -4,6 +4,7 @@ const router = express.Router();
 const User= require('../models').user
 const Volunteer = require('../models').volunteer;
 const Patient = require('../models').patient;
+const Help = require('../models').help_type;
 const secret = require('../config/authSecret');
 
 router.post('/signup', function(req, res) {
@@ -71,7 +72,7 @@ router.get('/volunteers', (req,res) => {
 
 router.get('/patients', (req, res) => {
   User.findAll({
-    attributes: ['name', 'location', 'user_name', 'description'],
+    attributes: ['id', 'name', 'location', 'user_name', 'description'],
     include: [{
       model: Patient,
       required: true,
@@ -83,6 +84,25 @@ router.get('/patients', (req, res) => {
     console.log(error);
     return res.status(500).send("an error occured")
   })
+})
+
+router.get('/patients/:id', function(req, res){
+  const id = parseInt(req.params.id);
+  if(isNaN(id)){
+    return res.status(400).send("not a valid patient Id");
+  }
+  User.findOne({
+    where: {
+      id: id
+    },
+    attributes: ['id', 'name', 'location', 'user_name', 'description'], //TODO; get help types associated with patient
+  }).then((patient) => {
+    return res.status(200).send(patient)
+  }).catch((error) => {
+    return res.status(400).send("error fetching patient");
+  })
+
+
 })
 
 
