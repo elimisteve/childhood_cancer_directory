@@ -1,11 +1,8 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const router = express.Router();
 require('../config/passport')(passport);
 const Offer = require('../models').offer;
-const secret = require('../config/authSecret');
-const getToken = require('../utils').getToken;
 
 router.get('/offers', function(req, res){
   console.log(req);
