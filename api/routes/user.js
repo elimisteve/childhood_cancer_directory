@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User= require('../models').user
 const Volunteer = require('../models').volunteer;
+const Patient = require('../models').patient;
 const secret = require('../config/authSecret');
 
 router.post('/signup', function(req, res) {
@@ -57,6 +58,7 @@ router.get('/volunteers', (req,res) => {
     include: [{
       model: Volunteer,
       required: true,
+      attributes: [],
     }]
   }).then((volunteers) =>{
     return res.status(200).send(volunteers)
@@ -68,9 +70,11 @@ router.get('/volunteers', (req,res) => {
 
 router.get('/patients', (req, res) => {
   User.findAll({
+    attributes: ['name', 'location', 'user_name'],
     include: [{
-      model: user,
+      model: Patient,
       required: true,
+      attributes: [],
     }]
   }).then((patients) => {
     return res.status(200).send(patients)
