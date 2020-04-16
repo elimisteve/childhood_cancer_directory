@@ -110,9 +110,17 @@ router.get('/volunteers/:id', function(req, res) {
   }
   User.findOne({
     where: {
-      id: id
+      id: id,
     },
     attributes: ['id', 'name', 'location', 'user_name', 'description'], //TODO; get help types associated with patient
+    include: [{
+      model: Volunteer,
+      attributes: ['user_id'],
+      include: [{
+        model: Help,
+        attributes: ['name', 'description', 'id']
+      }]
+    }]
   }).then((volunteer) => {
     return res.status(200).send(volunteer)
   }).catch((error) => {
