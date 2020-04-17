@@ -91,13 +91,34 @@ router.get('/patients/:id', function(req, res){
   if(isNaN(id)){
     return res.status(400).send("not a valid Id");
   }
-  User.findOne({
+  User.findOne(({
     where: {
-      id: id
+      id: id,
     },
-    attributes: ['id', 'name', 'location', 'user_name', 'description'], //TODO; get help types associated with patient
-  }).then((patient) => {
-    return res.status(200).send(patient)
+    attributes: ['id', 'name', 'location', 'user_name', 'description'], 
+    include: [{
+      model: Patient,
+      attributes: ['user_id'],
+      include: [{
+        model: Help,
+        attributes: ['name', 'description', 'id']
+      },
+    {
+      model: Volunteer,
+      include: [{
+        model: User,
+        attributes: ['id', 'name', 'location', 'description']
+      }]
+    }]
+    }]
+  })).then((patient) => {
+    let resObj = {}
+    resObj.id = patient.id;
+    resObj.location = patient.location;
+    resObj.description = patient.description;
+    resObj.volunteers = patient.patient.volunteers.map((patient) => (patient.user));
+    resObj.help_types = patient.patient.help_types.map((ht) => ({ 'name': ht.name, 'description': ht.description, 'id': ht.id }))    
+    return res.status(200).send(resObj)
   }).catch((error) => {
     return res.status(400).send("error fetching patient");
   })
@@ -112,7 +133,7 @@ router.get('/volunteers/:id', function(req, res) {
     where: {
       id: id,
     },
-    attributes: ['id', 'name', 'location', 'user_name', 'description'], //TODO; get help types associated with patient
+    attributes: ['id', 'name', 'location', 'user_name', 'description'], 
     include: [{
       model: Volunteer,
       attributes: ['user_id'],
