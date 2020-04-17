@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   volunteer.associate = function(models) {
     // associations can be defined here
     volunteer.belongsTo(models.user);
-    volunteer.belongsToMany(models.patient, {through: 'patient_volunteer'});
+    volunteer.belongsToMany(models.patient, {through: 'patient_volunteer', foreignKey: 'volunteer_id'});
     volunteer.belongsToMany(models.help_type, {through: 'volunteer_help_type', foreignKey: 'volunteer_id' });
   };
   return volunteer;

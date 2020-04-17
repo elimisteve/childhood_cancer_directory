@@ -119,10 +119,23 @@ router.get('/volunteers/:id', function(req, res) {
       include: [{
         model: Help,
         attributes: ['name', 'description', 'id']
+      },
+    {
+      model: Patient,
+      include: [{
+        model: User,
+        attributes: ['id', 'name', 'location', 'description']
       }]
     }]
+    }]
   }).then((volunteer) => {
-    return res.status(200).send(volunteer)
+    let resObj = {}
+    resObj.id = volunteer.id;
+    resObj.location = volunteer.location;
+    resObj.description = volunteer.description;
+    resObj.patients = volunteer.volunteer.patients.map((patient) => (patient.user));
+    resObj.help_types = volunteer.volunteer.help_types.map((ht) => ({'name': ht.name, 'description': ht.description, 'id': ht.id}))
+    return res.status(200).send(resObj)
   }).catch((error) => {
     return res.status(400).send("error fetching volunteer");
   })
