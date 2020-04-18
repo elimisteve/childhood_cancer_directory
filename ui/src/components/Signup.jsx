@@ -1,21 +1,75 @@
 import React from 'react';
 import styled from 'styled-components';
+import HelpPicker from './HelpPicker.jsx';
 import api from '../api';
 
 const StyledForm = styled.form`
 background-color: ${(props) => props.theme.colors.main};
 display: flex;
 flex-direction: column;
+max-width: 700px;
+border-radius: 5px;
 padding-left: 2.5rem;
 padding-right: 2.5rem;
+margin-left: auto;
+margin-right: auto;
+`;
+
+const InputElementContainer = styled.div`
+padding: 20px;
+border-bottom: 2px solid grey;
 `;
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '', username: '', password: '', passwordConf: '', location: '',
+      isPatient: true,
+      name: '',
+      username: '',
+      description: '',
+      password: '',
+      passwordConf: '',
+      location: '',
+      helpTypes: [],
+      loading: true,
+      helpType1: false,
+      helpType2: false,
+      helpType3: false,
+      helpType4: false,
+      helpType5: false,
+      helpType6: false,
+      helpType7: false,
+      helpType8: false,
     };
+  }
+
+  componentDidMount() {
+    api.get('/helpTypes').then((res) => {
+      res.data.forEach((element) => { element.checked = false });
+      this.setState({ helpTypes: res.data, loading: false });
+    }).catch((err) => {
+      console.log(err);
+      //TODO error handling;
+    });
+  }
+
+  handlePatientChange = () => {
+    this.setState({ isPatient: !this.state.isPatient });
+  }
+
+  handleDescriptionChange = (event) => {
+    this.setState({ description: event.target.value });
+  }
+
+  handleHelpChange = (event) => {
+    const nextHelpArr = this.state.helpTypes.map((elem) => {
+      if (elem.name === event.target.name) {
+        elem.checked = event.target.checked;
+      }
+      return elem;
+    });
+    this.setState({ [event.target.id]: event.target.checked, helpTypes: nextHelpArr });
   }
 
   handleNameChange = (event) => {
@@ -42,12 +96,26 @@ class Signup extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    if (this.state.password !== this.state.passwordConf) {
+      alert('Passwords do not match');
+      return;
+    }
     api.post('/signup', {
       name: this.state.name,
       username: this.state.username,
       password: this.state.password,
       location: this.state.location,
-    }).then((response) =>{
+      description: this.state.description,
+      patient: this.state.isPatient,
+      helpType1: this.state.helpType1,
+      helpType2: this.state.helpType2,
+      helpType3: this.state.helpType3,
+      helpType4: this.state.helpType4,
+      helpType5: this.state.helpType5,
+      helpType6: this.state.helpType6,
+      helpType7: this.state.helpType7,
+      helpType8: this.state.helpType8,
+    }).then((response) => {
       console.log('RESPONSE', response);
       sessionStorage.setItem('token', response.data.token);
     }).catch((error) => {
@@ -56,19 +124,45 @@ class Signup extends React.Component {
 
 
   render() {
+    if (this.state.loading) {
+      return <div>loading...</div>;
+    }
     return (
       <StyledForm onSubmit={this.handleSubmit}>
-        <label htmlFor='signupName'>Name</label>
-        <input type='text' id='signupName' value={this.state.lastName} onChange={this.handleNameChange} />
-        <label htmlFor='signupLocation'>Location</label>
-        <input type='text' id='signupLocation' value={this.state.location} onChange={this.handleLocationChange} />
-        <label htmlFor='signupUsername'>Email</label>
-        <input type='email' id='signupUsername' value={this.state.username} onChange={this.handleUsernameChange} />
-        <label htmlFor='signupPassword'>Password</label>
-        <input type='password' id='signupPassword' value={this.state.password} onChange={this.handlePasswordChange} />
-        <label htmlFor='signupPasswordConf'>Confirm Password</label>
-        <input type='password' id='signupPasswordConf' value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
-        <input type="submit" />
+        <InputElementContainer>
+          <h2>Are you a Patient or Volunteer?</h2>
+          <label htmlFor="signupPatient">Patient</label>
+          <input id="signupPatient" value="patient" name="signupRadio" type="radio" checked={this.state.isPatient} onChange={this.handlePatientChange} />
+          <label htmlFor="signupVolunteer">Volunteer</label>
+          <input id="signupVolunteer" value="volunteer" name="signupRadio" type="radio" checked={!this.state.isPatient} onChange={this.handlePatientChange}/>
+        </InputElementContainer>
+        <InputElementContainer>
+          <label htmlFor='signupName'>Name</label>
+          <input type='text' required={true} id='signupName' value={this.state.lastName} onChange={this.handleNameChange} />
+        </InputElementContainer>
+        <InputElementContainer>
+          <label htmlFor='signupLocation'>Location</label>
+          <input type='text' required={true} id='signupLocation' value={this.state.location} onChange={this.handleLocationChange} />
+        </InputElementContainer>
+        <InputElementContainer>
+        <label htmlFor="signupDescription">Description</label>
+        <textarea id="signupDescription" required={true} value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
+        </InputElementContainer>
+        <InputElementContainer>
+          <label htmlFor='signupUsername'>Email</label>
+          <input type='email' id='signupUsername' required={true} value={this.state.username} onChange={this.handleUsernameChange} />
+        </InputElementContainer>
+        <InputElementContainer>
+          <label htmlFor='signupPassword'>Password</label>
+          <input type='password' id='signupPassword' required={true} value={this.state.password} onChange={this.handlePasswordChange} />
+        </InputElementContainer>
+        <InputElementContainer>
+          <label htmlFor='signupPasswordConf'>Confirm Password</label>
+          <input type='password' id='signupPasswordConf' value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
+        </InputElementContainer>
+
+        <HelpPicker header={`Select what you ${this.state.isPatient ? 'need' : 'can'} help with`} helpTypes={this.state.helpTypes} handleChange={this.handleHelpChange} />
+        <input type="submit" value="Sign up" />
       </StyledForm>
     );
   }

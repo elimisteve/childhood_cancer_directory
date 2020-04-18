@@ -4,7 +4,7 @@ import ListItem from '../styles/ListItem';
 
 const Patient = (props) => (
   <ListItem>
-    <h1>{`${props.name}`}</h1>
+    <h2>{`${props.name}`}</h2>
     {props.location}
   </ListItem>
 );

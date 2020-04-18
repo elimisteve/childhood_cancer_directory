@@ -19,6 +19,7 @@ const PatientList = () => {
   if (!loading) {
     return (
       <StyledDiv>
+      <h1>Patients</h1>
         {patients.map((patient) => (
           <Patient
             key={patient.id} name={patient.name}
