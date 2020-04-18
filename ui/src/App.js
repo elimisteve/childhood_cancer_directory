@@ -8,24 +8,28 @@ import {
 import Navigation from './components/Navigation.jsx';
 import routes from './routes';
 import theme from './theme';
+import UserContext from './UserContext';
+
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
+        <UserContext.Provider value={{ user: { patient: null, name: null, token: null }, updateUser : function(newUser) {this.user=newUser} }}>
           <Router>
-            <Navigation/>
+            <Navigation />
             <Switch>
-            {routes.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}>
-                {route.component}
-              </Route>
-            ))}
+              {routes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  exact={route.exact}>
+                  {route.component}
+                </Route>
+              ))}
             </Switch>
           </Router>
+        </UserContext.Provider>
       </ThemeProvider>
     </div>
   );

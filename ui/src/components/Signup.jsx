@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import HelpPicker from './HelpPicker.jsx';
 import api from '../api';
+import UserContext from '../UserContext';
 
 const StyledForm = styled.form`
 background-color: ${(props) => props.theme.colors.main};
@@ -22,6 +23,7 @@ border-bottom: 2px solid grey;
 
 class Signup extends React.Component {
   constructor(props) {
+    console.log('PROPS IN SINUP', props);
     super(props);
     this.state = {
       isPatient: true,
@@ -45,8 +47,9 @@ class Signup extends React.Component {
   }
 
   componentDidMount() {
+    console.log('context', this.context);
     api.get('/helpTypes').then((res) => {
-      res.data.forEach((element) => { element.checked = false });
+      res.data.forEach((element) => { element.checked = false; });
       this.setState({ helpTypes: res.data, loading: false });
     }).catch((err) => {
       console.log(err);
@@ -116,14 +119,15 @@ class Signup extends React.Component {
       helpTypeIds,
     }).then((response) => {
       console.log('RESPONSE', response);
+      this.context.updateUser(response.data.user);
       sessionStorage.setItem('token', response.data.token);
+      console.log('NEXT CONTEXT', this.context);
     }).catch((error) => {
     });
   }
 
 
   render() {
-    const userContext = React.useContext(userContext);
     if (this.state.loading) {
       return <div>loading...</div>;
     }
@@ -166,8 +170,8 @@ class Signup extends React.Component {
       </StyledForm>
     );
   }
-
-
 }
+
+Signup.contextType = UserContext;
 
 export default Signup;

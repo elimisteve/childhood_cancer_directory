@@ -19,7 +19,7 @@ router.post('/signup', function(req, res) {
       location: req.body.location,
       description: req.body.description,
     }).then((user) =>{
-      var token = jwt.sign(JSON.parse(JSON.stringify(user)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
+      user['token'] = jwt.sign(JSON.parse(JSON.stringify(user)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
       if(req.body.patient){
         user['patient'] = true;
         Patient.create({
@@ -36,7 +36,7 @@ router.post('/signup', function(req, res) {
           volunteer.setHelp_types(req.body.helpTypeIds)
         })
       }
-      return res.status(200).send({ 'token': token, user });
+      return res.status(200).send({ user});
   })
     .catch((error) => {
       console.log(error);
