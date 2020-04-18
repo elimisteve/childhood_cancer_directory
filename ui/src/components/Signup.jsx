@@ -100,6 +100,12 @@ class Signup extends React.Component {
       alert('Passwords do not match');
       return;
     }
+    const helpTypeIds = [];
+    this.state.helpTypes.forEach((elem) => {
+      if (elem.checked) {
+        helpTypeIds.push(elem.id);
+      }
+    });
     api.post('/signup', {
       name: this.state.name,
       username: this.state.username,
@@ -107,14 +113,7 @@ class Signup extends React.Component {
       location: this.state.location,
       description: this.state.description,
       patient: this.state.isPatient,
-      helpType1: this.state.helpType1,
-      helpType2: this.state.helpType2,
-      helpType3: this.state.helpType3,
-      helpType4: this.state.helpType4,
-      helpType5: this.state.helpType5,
-      helpType6: this.state.helpType6,
-      helpType7: this.state.helpType7,
-      helpType8: this.state.helpType8,
+      helpTypeIds,
     }).then((response) => {
       console.log('RESPONSE', response);
       sessionStorage.setItem('token', response.data.token);
@@ -124,6 +123,7 @@ class Signup extends React.Component {
 
 
   render() {
+    const userContext = React.useContext(userContext);
     if (this.state.loading) {
       return <div>loading...</div>;
     }

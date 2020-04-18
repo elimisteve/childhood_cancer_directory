@@ -1,4 +1,5 @@
 'use strict';
+const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
     user_name: DataTypes.STRING,
@@ -20,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
         cb(null, isMatch);
     });
   };
+
+  user.prototype.toJSON = function () {
+    var values = Object.assign({}, this.get())
+    delete values.password;
+    return values;
+  }
   user.associate = function(models) {
     user.hasOne(models.volunteer);
     user.hasOne(models.patient);

@@ -8,18 +8,35 @@ const Help = require('../models').help_type;
 const secret = require('../config/authSecret');
 
 router.post('/signup', function(req, res) {
-  console.log(req.body);
   if(!req.body.username || !req.body.password || !req.body.location){
-    res.status(400).send({msg: "Must at least post username, password, and location"})
+    res.status(400).send({msg: "Must at least post name, email, password, and location"})
   }else{
+    console.log(User)
     User.create({
+      name: req.body.name,
       user_name: req.body.username,
       password: req.body.password,
       location: req.body.location,
       description: req.body.description,
     }).then((user) =>{
       var token = jwt.sign(JSON.parse(JSON.stringify(user)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
-      res.status(201).send({"user" : user, "token": "JWT " + token } )
+      if(req.body.patient){
+        user['patient'] = true;
+        Patient.create({
+          user_id: user.id
+        }).then((patient) => {
+          patient.setHelp_types(req.body.helpTypeIds);
+        })
+      }
+      else{
+        user['patient'] = false;
+        Volunteer.create({
+          user_id: user.id
+        }).then((volunteer) => {
+          volunteer.setHelp_types(req.body.helpTypeIds)
+        })
+      }
+      return res.status(200).send({ 'token': token, user });
   })
     .catch((error) => {
       console.log(error);
@@ -29,6 +46,7 @@ router.post('/signup', function(req, res) {
 });
 
 router.post('/signin', (req,res) => {
+  //TODO indicate whether user is patient or volunteer.
   User.findOne({
     where:{
       username: req.body.username
