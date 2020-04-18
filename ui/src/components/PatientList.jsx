@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Patient from './Patient.jsx';
 import api from '../api';
+import UserContext from '../UserContext';
 
 const StyledDiv = styled.div``;
 
@@ -22,8 +23,11 @@ const PatientList = () => {
       <h1>Patients</h1>
         {patients.map((patient) => (
           <Patient
-            key={patient.id} name={patient.name}
-            location={patient.location} />
+            key={patient.id}
+            name={patient.name}
+            location={patient.location}
+            id={patient.id}
+          />
         ))}
       </StyledDiv>
     );

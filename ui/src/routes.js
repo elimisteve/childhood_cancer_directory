@@ -4,6 +4,7 @@ import VolunteerList from './components/VolunteerList.jsx';
 import PatientList from './components/PatientList.jsx';
 import Signin from './components/Signin.jsx';
 import Signup from './components/Signup.jsx';
+import PatientDetails from './components/PatientDetail.jsx';
 
 export default [
   {
@@ -22,8 +23,13 @@ export default [
     component: <OfferList />,
   },
   {
-    path: '/patients',
+    path: '/patients/:id',
     exact: false,
+    component: <PatientDetails />,
+  },
+  {
+    path: '/patients',
+    exact: true,
     component: <PatientList/>,
   },
   {
