@@ -21,7 +21,7 @@ router.post('/signup', function(req, res) {
     }).then((user) =>{
       user['token'] = jwt.sign(JSON.parse(JSON.stringify(user)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
       if(req.body.patient){
-        user['patient'] = true;
+        user['isPatient'] = true;
         Patient.create({
           user_id: user.id
         }).then((patient) => {
@@ -29,7 +29,7 @@ router.post('/signup', function(req, res) {
         })
       }
       else{
-        user['patient'] = false;
+        user['isPatient'] = false;
         Volunteer.create({
           user_id: user.id
         }).then((volunteer) => {
@@ -46,30 +46,39 @@ router.post('/signup', function(req, res) {
 });
 
 router.post('/signin', (req,res) => {
-  //TODO indicate whether user is patient or volunteer.
   User.findOne({
     where:{
-      username: req.body.username
-    }
+      user_name: req.body.username
+    },
   }).then((user) => {
     if(!user){
       return res.status(401).send({
         msg: 'Username not found'
       })
     }
-    User.comparePassword(req.body.password, (err, isMatch) => {
+    user.comparePassword(req.body.password, (err, isMatch) => {
       if(isMatch && !err) {
         var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 86400*30})
         jwt.verify(token, secret, function(err, data){
           console.log(err, data);
         })
-        res.json({success: true, token: 'JWT ' + token});
+        Patient.findOne({
+          where:{
+            user_id:  user.id
+          }
+        }).then((patient) => {
+          user.isPatient = patient !== null;
+          user['token'] = token;
+          res.json({ success: true, user });
+        })
       } else {
+        console.log(err);
         res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
        }
     })
   })
-  .catch((error) => res.status(400).send(error))
+  .catch((error) =>
+   res.status(400).send(error))
 })
 
 router.get('/volunteers', (req,res) => {
@@ -130,8 +139,12 @@ router.get('/patients/:id', function(req, res){
     }]
     }]
   })).then((patient) => {
+    if(!patient){
+      return res.status(404).send('Patient does not exist');
+    }
     let resObj = {}
     resObj.id = patient.id;
+    resObj.name = patient.name;
     resObj.location = patient.location;
     resObj.description = patient.description;
     resObj.volunteers = patient.patient.volunteers.map((patient) => (patient.user));

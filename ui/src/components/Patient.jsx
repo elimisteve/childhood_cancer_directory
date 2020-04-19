@@ -7,7 +7,6 @@ import {
 import ListItem from '../styles/ListItem';
 
 const Patient = (props) => {
-  console.log('props in patient', props);
   const { url } = useRouteMatch();
   return (
   <Link to={`${url}/${props.id}`} >

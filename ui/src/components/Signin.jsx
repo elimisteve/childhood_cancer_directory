@@ -1,8 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 import api from '../api';
-
-class Login extends React.Component {
+import styled from 'styled-components';
+import UserContext from '../UserContext';
+import { withRouter } from 'react-router-dom';
+class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({ email: '', password: '' });
@@ -13,8 +14,17 @@ class Login extends React.Component {
       username: this.state.email,
       password: this.state.password,
     }).then((response) => {
-      console.log('login respoine', response);
-      sessionStorage.setItem('token', response.data.token);
+      this.context.setUser(response.data.user);/*
+      sessionStorage.setItem('patient', response.data.user.isPatient);
+      sessionStorage.setItem('token', response.data.user.token);
+      sessionStorage.setItem('userId', response.data.user.id);
+      */
+      if (response.data.user.isPatient) {
+        this.props.history.push('/volunteers');
+      }
+      else {
+        this.props.history.push('/patients');
+      }
     });
     event.preventDefault();
   }
@@ -39,4 +49,5 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Signin.contextType = UserContext;
+export default withRouter(Signin);

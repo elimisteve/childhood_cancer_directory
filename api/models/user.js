@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     password: DataTypes.STRING,
     token: DataTypes.VIRTUAL,
+    isPatient: DataTypes.VIRTUAL,
   }, {});
     user.beforeSave((user, options) => {
     if (user.changed('password')) {
@@ -22,13 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         cb(null, isMatch);
     });
   };
-/*
   user.prototype.toJSON = function () {
     var values = Object.assign({}, this.get())
     delete values.password;
     return values;
   }
-  */
   user.associate = function(models) {
     user.hasOne(models.volunteer);
     user.hasOne(models.patient);

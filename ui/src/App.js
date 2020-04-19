@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import {
   BrowserRouter as Router,
@@ -12,10 +12,11 @@ import UserContext from './UserContext';
 
 
 function App() {
+  const [user, setUser] = useState({});
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <UserContext.Provider value={{ user: { patient: null, name: null, token: null }, updateUser : function(newUser) {this.user=newUser} }}>
+        <UserContext.Provider value ={{ user, setUser }}>
           <Router>
             <Navigation />
             <Switch>

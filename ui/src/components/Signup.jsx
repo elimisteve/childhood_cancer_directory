@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import HelpPicker from './HelpPicker.jsx';
 import api from '../api';
 import UserContext from '../UserContext';
@@ -119,10 +120,15 @@ class Signup extends React.Component {
       helpTypeIds,
     }).then((response) => {
       console.log('RESPONSE', response);
-      this.context.updateUser(response.data.user);
-      sessionStorage.setItem('token', response.data.token);
-      console.log('NEXT CONTEXT', this.context);
+      this.context.setUser(response.data.user);
+      if (response.data.user.isPatient) {
+        this.props.history.push('/volunteers');
+      }
+      else {
+        this.props.history.push('/patients');
+      }
     }).catch((error) => {
+      console.log('ERRR',error);
     });
   }
 
@@ -173,5 +179,4 @@ class Signup extends React.Component {
 }
 
 Signup.contextType = UserContext;
-
-export default Signup;
+export default withRouter(Signup);

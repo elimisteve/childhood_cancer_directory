@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Patient from './Patient.jsx';
 import api from '../api';
-import UserContext from '../UserContext';
 
 const StyledDiv = styled.div``;
 
