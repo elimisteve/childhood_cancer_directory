@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import api from '../api';
 
 const StyledForm = styled.form`
@@ -28,9 +29,11 @@ class CreateOffer extends React.Component {
   }
 
   handleSubmit(event) {
-    api.post('offers', {
+    api.post('/offers', {
       name: this.state.name,
       description: this.state.description,
+    }).then((response) => {
+      this.props.history.push('/offers');
     });
     event.preventDefault();
   }
@@ -48,4 +51,4 @@ class CreateOffer extends React.Component {
   }
 }
 
-export default CreateOffer;
+export default withRouter(CreateOffer);

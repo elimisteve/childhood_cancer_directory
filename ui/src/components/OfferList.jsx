@@ -22,12 +22,10 @@ const OfferList = () => {
     });
   }, []);
 
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
   return (
     <>
       <Link to={`${url}/new`}>Create Offer</Link>
-      <Switch>
-        <Route exact path={path}>
           {!loading
             ? offers.map((offer) => (
               <div key={offer.id}>
@@ -36,11 +34,6 @@ const OfferList = () => {
             ))
             : <div>loading</div>
         }
-        </Route>
-        <Route path={`${path}/new`}>
-          <CreateOffer/>
-        </Route>
-      </Switch>
     </>
   );
 };

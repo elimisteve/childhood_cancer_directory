@@ -5,6 +5,7 @@ import PatientList from './components/PatientList.jsx';
 import Signin from './components/Signin.jsx';
 import Signup from './components/Signup.jsx';
 import PatientDetails from './components/PatientDetail.jsx';
+import CreateOffer from './components/CreateOffer';
 
 export default [
   {
@@ -16,6 +17,12 @@ export default [
     path: '/volunteers',
     exact: false,
     component: <VolunteerList />,
+  },
+  {
+    path: '/offers/new',
+    exact: false,
+    component: <CreateOffer />,
+
   },
   {
     path: '/offers',
