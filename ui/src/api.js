@@ -4,7 +4,7 @@ const apiUrl = 'http://localhost:3000';
 
 let token = null
 const setToken = (newToken) => {
-  token = newToken;
+  token = 'JWT '+ newToken;
 };
 
 const apiObj = axios.create({
