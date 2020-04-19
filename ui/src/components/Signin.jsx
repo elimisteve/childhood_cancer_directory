@@ -1,5 +1,5 @@
 import React from 'react';
-import api from '../api';
+import api, {setToken} from '../api';
 import styled from 'styled-components';
 import UserContext from '../UserContext';
 import { withRouter } from 'react-router-dom';
@@ -14,11 +14,8 @@ class Signin extends React.Component {
       username: this.state.email,
       password: this.state.password,
     }).then((response) => {
-      this.context.setUser(response.data.user);/*
-      sessionStorage.setItem('patient', response.data.user.isPatient);
-      sessionStorage.setItem('token', response.data.user.token);
-      sessionStorage.setItem('userId', response.data.user.id);
-      */
+      this.context.setUser(response.data.user);
+      setToken(response.data.user.token);
       if (response.data.user.isPatient) {
         this.props.history.push('/volunteers');
       }
@@ -40,12 +37,12 @@ class Signin extends React.Component {
     return (
       <form onSubmit={this.handleSubmit} >
         <label htmlFor='loginEmail'>User Name</label>
-        <input id='loginEmail' type='text' value={this.state.email} onChange={this.handleEmailChange}/>
+        <input id='loginEmail' type='text' value={this.state.email} onChange={this.handleEmailChange} />
         <label for='loginPassword'>User Name</label>
-        <input id='loginPassword' type='password' value={this.state.password} onChange={this.handlePasswordChange}/>
-        <input type="submit" value="Login"/>
+        <input id='loginPassword' type='password' value={this.state.password} onChange={this.handlePasswordChange} />
+        <input type="submit" value="Login" />
       </form>
-    )
+    );
   }
 }
 

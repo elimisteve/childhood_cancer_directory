@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import HelpPicker from './HelpPicker.jsx';
-import api from '../api';
+import api, {setToken} from '../api';
 import UserContext from '../UserContext';
 
 const StyledForm = styled.form`
@@ -121,6 +121,7 @@ class Signup extends React.Component {
     }).then((response) => {
       console.log('RESPONSE', response);
       this.context.setUser(response.data.user);
+      setToken(response.data.user.token);
       if (response.data.user.isPatient) {
         this.props.history.push('/volunteers');
       }

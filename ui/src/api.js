@@ -2,15 +2,18 @@ import axios from 'axios';
 
 const apiUrl = 'http://localhost:3000';
 
+let token = null
+const setToken = (newToken) => {
+  token = newToken;
+};
+
 const apiObj = axios.create({
   baseURL: apiUrl,
 });
 apiObj.interceptors.request.use((config) => {
-  if ('token' in sessionStorage) {
-    config.headers.Authorization = sessionStorage.token;
-  }
+  console.log('token in api', token);
+  config.headers.Authorization = token;
   return config;
 });
-
-
+export { setToken };
 export default apiObj;
