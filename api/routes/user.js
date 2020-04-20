@@ -81,6 +81,24 @@ router.post('/signin', (req,res) => {
    res.status(400).send(error))
 })
 
+router.post('/patients/:patientId/volunteers/:volunteerId', (req,res) => {
+  const patientId = parseInt(req.params.patientId), volunteerId = parseInt(req.params.volunteerId);
+  if(isNaN(patientId) || isNaN(volunteerId)){
+    res.status(400).send('invalid parameters');
+  }
+  Patient.findOne({
+    where: {
+      user_id: patientId
+    }
+  }).then((patient) => {
+    patient.addVolunteers(volunteerId).then((pv) =>{
+      res.status(200).send(pv);
+    }).catch((err) => {
+      console.log(err);
+    });
+  })
+})
+
 router.get('/volunteers', (req,res) => {
   User.findAll({
     attributes: ['name', 'location', 'user_name', 'description'],

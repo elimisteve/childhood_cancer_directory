@@ -26,6 +26,11 @@ margin-left: auto;
 margin-right: auto;
 `;
 
+const HelpButton = styled.button`
+  width: auto;
+  max-width: 200px;
+`;
+
 const PatientDetail = () => {
   const isPatient = sessionStorage.patient === true;
   const { id } = useParams();
@@ -45,22 +50,40 @@ const PatientDetail = () => {
       <div>loading</div>
     );
   }
-  return (
-      <StyledContainer>
-        <StyledH2>{patient.name}</StyledH2>
-        <StyledElement>Location: {patient.location}</StyledElement>
-        <StyledElement>Description: {patient.description}</StyledElement>
-        <div>
-          <StyledH2>needs help with:</StyledH2>
-          {patient.help_types.map(((elem) => (
-            <div key={elem.id} >
-              {elem.name}
-            </div>
-          )))}
+  const addVolunteer = (patientId, volunteerId) => {
+    alert(volunteerId);
+    api.post(`patients/${patientId}/volunteers/${volunteerId}`).then((response) => {
+    });
 
-        </div>
-        {isPatient && <button>Help</button> }
-      </StyledContainer>
+  }
+  return (
+    <UserContext.Consumer>
+      {(value) => {
+        console.log('value in pd', value);
+        return (
+        <StyledContainer>
+          <StyledH2>{patient.name}</StyledH2>
+          <StyledElement>Location: {patient.location}</StyledElement>
+          <StyledElement>Description: {patient.description}</StyledElement>
+          <div>
+            <StyledH2>Needs help with:</StyledH2>
+            {patient.help_types.map(((elem) => (
+              <div key={elem.id} >
+                {elem.name}
+              </div>
+            )))}
+            <StyledH2>People helping:</StyledH2>
+            {patient.volunteers.map(((elem) => (
+              <div key={elem.id} >
+                {elem.name}
+              </div>
+            )))}
+          </div>
+          { value.user.isPatient === false && <HelpButton onClick={() => { addVolunteer(patient.id, value.user.id); } }>Help this person</HelpButton>}
+        </StyledContainer>
+        );
+      }}
+    </UserContext.Consumer>
   );
 };
 
