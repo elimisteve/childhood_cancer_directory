@@ -4,18 +4,8 @@ import { withRouter } from 'react-router-dom';
 import HelpPicker from './HelpPicker.jsx';
 import api, {setToken} from '../api';
 import UserContext from '../UserContext';
+import UserForm from '../styles/UserForm';
 
-const StyledForm = styled.form`
-background-color: ${(props) => props.theme.colors.main};
-display: flex;
-flex-direction: column;
-max-width: 700px;
-border-radius: 5px;
-padding-left: 2.5rem;
-padding-right: 2.5rem;
-margin-left: auto;
-margin-right: auto;
-`;
 
 const InputElementContainer = styled.div`
 padding: 20px;
@@ -36,21 +26,13 @@ class Signup extends React.Component {
       location: '',
       helpTypes: [],
       loading: true,
-      helpType1: false,
-      helpType2: false,
-      helpType3: false,
-      helpType4: false,
-      helpType5: false,
-      helpType6: false,
-      helpType7: false,
-      helpType8: false,
+      checkedHelpTypes: new Set(),
     };
   }
 
   componentDidMount() {
     console.log('context', this.context);
     api.get('/helpTypes').then((res) => {
-      res.data.forEach((element) => { element.checked = false; });
       this.setState({ helpTypes: res.data, loading: false });
     }).catch((err) => {
       console.log(err);
@@ -67,13 +49,16 @@ class Signup extends React.Component {
   }
 
   handleHelpChange = (event) => {
-    const nextHelpArr = this.state.helpTypes.map((elem) => {
-      if (elem.name === event.target.name) {
-        elem.checked = event.target.checked;
-      }
-      return elem;
+    const id = parseInt(event.target.id.match(/\d+$/)[0], 10);
+    const nextChecked = new Set(this.state.checkedHelpTypes);
+    if (event.target.checked) {
+      nextChecked.add(id);
+    } else {
+      nextChecked.delete(id);
+    }
+    this.setState({ checkedHelpTypes: nextChecked }, () => {
+      console.log('after help change', this.state.checkedHelpTypes);
     });
-    this.setState({ [event.target.id]: event.target.checked, helpTypes: nextHelpArr });
   }
 
   handleNameChange = (event) => {
@@ -104,19 +89,15 @@ class Signup extends React.Component {
       alert('Passwords do not match');
       return;
     }
-    const helpTypeIds = [];
-    this.state.helpTypes.forEach((elem) => {
-      if (elem.checked) {
-        helpTypeIds.push(elem.id);
-      }
-    });
+    const helpTypeIds = [...this.state.checkedHelpTypes];
+    console.log('help types in submit', helpTypeIds);
     api.post('/signup', {
       name: this.state.name,
       username: this.state.username,
       password: this.state.password,
       location: this.state.location,
       description: this.state.description,
-      patient: this.state.isPatient,
+      isPatient: this.state.isPatient,
       helpTypeIds,
     }).then((response) => {
       console.log('RESPONSE', response);
@@ -129,7 +110,6 @@ class Signup extends React.Component {
         this.props.history.push('/patients');
       }
     }).catch((error) => {
-      console.log('ERRR',error);
     });
   }
 
@@ -139,7 +119,7 @@ class Signup extends React.Component {
       return <div>loading...</div>;
     }
     return (
-      <StyledForm onSubmit={this.handleSubmit}>
+      <UserForm onSubmit={this.handleSubmit}>
         <InputElementContainer>
           <h2>Are you a Patient or Volunteer?</h2>
           <label htmlFor="signupPatient">Patient</label>
@@ -172,9 +152,9 @@ class Signup extends React.Component {
           <input type='password' id='signupPasswordConf' value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
         </InputElementContainer>
 
-        <HelpPicker header={`Select what you ${this.state.isPatient ? 'need' : 'can'} help with`} helpTypes={this.state.helpTypes} handleChange={this.handleHelpChange} />
+        <HelpPicker header={`Select what you ${this.state.isPatient ? 'need' : 'can'} help with`} helpTypes={this.state.helpTypes} checked={this.state.checkedHelpTypes} handleChange={this.handleHelpChange} />
         <input type="submit" value="Sign up" />
-      </StyledForm>
+      </UserForm>
     );
   }
 }
