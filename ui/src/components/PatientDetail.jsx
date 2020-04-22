@@ -59,7 +59,6 @@ const PatientDetail = () => {
   return (
     <UserContext.Consumer>
       {(value) => {
-        console.log('value in pd', value);
         return (
         <StyledContainer>
           <StyledH2>{patient.name}</StyledH2>

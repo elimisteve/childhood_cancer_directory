@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     token: DataTypes.VIRTUAL,
     isPatient: DataTypes.VIRTUAL,
+    helpTypeIds: DataTypes.VIRTUAL,
   }, {});
     user.beforeSave((user, options) => {
     if (user.changed('password')) {

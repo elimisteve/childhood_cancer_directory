@@ -24,12 +24,11 @@ const Navigation = () => {
     {(value) => {
       return (
         <StyledNav>
-          <StyledLink to='/offers'>Offers</StyledLink>
           <StyledLink to='/volunteers'>Volunteers</StyledLink>
           <StyledLink to='/patients'>Patients</StyledLink>
           {!(value.user.token) && <StyledLink to='/signup'>Sign up</StyledLink>}
           {!(value.user.token) && <StyledLink to='/signin'>Sign in</StyledLink>}
-          {value.user.token && <StyledLink to='/signup'>My Profile</StyledLink>}
+          {value.user.token && <StyledLink to='/users/edit'>My Profile</StyledLink>}
         </StyledNav>
       );
     }}

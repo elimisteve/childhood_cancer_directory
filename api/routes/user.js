@@ -20,7 +20,7 @@ router.post('/signup', function(req, res) {
       description: req.body.description,
     }).then((user) =>{
       user['token'] = jwt.sign(JSON.parse(JSON.stringify(user)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
-      if(req.body.patient){
+      if(req.body.isPatient){
         user['isPatient'] = true;
         Patient.create({
           user_id: user.id

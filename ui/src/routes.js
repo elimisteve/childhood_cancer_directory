@@ -5,9 +5,16 @@ import PatientList from './components/PatientList.jsx';
 import Signin from './components/Signin.jsx';
 import Signup from './components/Signup.jsx';
 import PatientDetails from './components/PatientDetail.jsx';
-import CreateOffer from './components/CreateOffer';
+import CreateOffer from './components/CreateOffer.jsx';
+import UserProfile from './components/UserProfile.jsx';
 
 export default [
+  {
+    path: '/users/edit',
+    exact: true,
+    component: <UserProfile />,
+
+  },
   {
     path: '/',
     exact: true,
