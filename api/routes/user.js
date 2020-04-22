@@ -6,10 +6,11 @@ const Volunteer = require('../models').volunteer;
 const Patient = require('../models').patient;
 const Help = require('../models').help_type;
 const secret = require('../config/authSecret');
+const { Op } = require('sequelize');
 
 router.post('/signup', function(req, res) {
-  if(!req.body.username || !req.body.password || !req.body.location){
-    res.status(400).send({msg: "Must at least post name, email, password, and location"})
+  if(!req.body.username || !req.body.password || !req.body.location || !req.body.isPatient || !req.body.name){
+    res.status(400).send({msg: "Must at least post name, user name, email, password, location, and patient boolean"})
   }else{
     console.log(User)
     User.create({
@@ -36,6 +37,8 @@ router.post('/signup', function(req, res) {
           volunteer.setHelp_types(req.body.helpTypeIds)
         })
       }
+      user.network = [];
+      user.helpTypes = [];
       return res.status(200).send({ user});
   })
     .catch((error) => {
@@ -46,11 +49,11 @@ router.post('/signup', function(req, res) {
 });
 
 router.post('/signin', (req,res) => {
-  User.findOne({
-    where:{
-      user_name: req.body.username
-    },
-  }).then((user) => {
+  if(!req.body.password || !req.body.username){
+    return res.status(400).send('must provide username and password to login');
+  }
+  getUser(-1, req.body.username)
+  .then((user) => {
     if(!user){
       return res.status(401).send({
         msg: 'Username not found'
@@ -62,15 +65,8 @@ router.post('/signin', (req,res) => {
         jwt.verify(token, secret, function(err, data){
           console.log(err, data);
         })
-        Patient.findOne({
-          where:{
-            user_id:  user.id
-          }
-        }).then((patient) => {
-          user.isPatient = patient !== null;
-          user['token'] = token;
-          res.json({ success: true, user });
-        })
+        user['token'] = token;
+        return res.status(200).send(user)
       } else {
         console.log(err);
         res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
@@ -136,40 +132,10 @@ router.get('/patients/:id', function(req, res){
   if(isNaN(id)){
     return res.status(400).send("not a valid Id");
   }
-  User.findOne(({
-    where: {
-      id: id,
-    },
-    attributes: ['id', 'name', 'location', 'user_name', 'description'], 
-    include: [{
-      model: Patient,
-      attributes: ['user_id'],
-      include: [{
-        model: Help,
-        attributes: ['name', 'description', 'id']
-      },
-    {
-      model: Volunteer,
-      include: [{
-        model: User,
-        attributes: ['id', 'name', 'location', 'description']
-      }]
-    }]
-    }]
-  })).then((patient) => {
-    if(!patient){
-      return res.status(404).send('Patient does not exist');
-    }
-    let resObj = {}
-    resObj.id = patient.id;
-    resObj.name = patient.name;
-    resObj.location = patient.location;
-    resObj.description = patient.description;
-    resObj.volunteers = patient.patient.volunteers.map((patient) => (patient.user));
-    resObj.help_types = patient.patient.help_types.map((ht) => ({ 'name': ht.name, 'description': ht.description, 'id': ht.id }))    
-    return res.status(200).send(resObj)
-  }).catch((error) => {
-    return res.status(400).send("error fetching patient");
+  getUser(id).then((user) => {
+    res.status(200).send(user);
+  }).catch((err) => {
+    console.log(err);
   })
 })
 
@@ -178,37 +144,62 @@ router.get('/volunteers/:id', function(req, res) {
   if(isNaN(id)){
     return res.status(400).send("not a valid Id");
   }
-  User.findOne({
-    where: {
-      id: id,
-    },
-    attributes: ['id', 'name', 'location', 'user_name', 'description'], 
-    include: [{
-      model: Volunteer,
-      attributes: ['user_id'],
-      include: [{
-        model: Help,
-        attributes: ['name', 'description', 'id']
-      },
-    {
-      model: Patient,
-      include: [{
-        model: User,
-        attributes: ['id', 'name', 'location', 'description']
-      }]
-    }]
-    }]
-  }).then((volunteer) => {
-    let resObj = {}
-    resObj.id = volunteer.id;
-    resObj.location = volunteer.location;
-    resObj.description = volunteer.description;
-    resObj.patients = volunteer.volunteer.patients.map((patient) => (patient.user));
-    resObj.help_types = volunteer.volunteer.help_types.map((ht) => ({'name': ht.name, 'description': ht.description, 'id': ht.id}))
-    return res.status(200).send(resObj)
-  }).catch((error) => {
-    return res.status(400).send("error fetching volunteer");
-  })
+   getUser(id).then((user) => {
+     res.status(200).send(user)
+   }).catch((err) => {
+     console.log(err)
+   });
 })
+
+const getUser = async (id=-1, userName='') => {
+ let user = await User.findOne({
+    where:{
+      [Op.or]: [
+      {id: id},
+      {user_name: userName}
+      ]
+    },
+    include: [
+      {
+        model: Volunteer,
+        include: [{
+          model: Help
+        },
+        {
+          model: Patient,
+          include: [{
+            model: User
+          }]
+        }
+      ] 
+      },
+      {
+        model: Patient,
+        include: [{
+          model: Help
+        },
+        {
+          model: Volunteer,
+          include: [{
+            model: User
+          }]
+        }
+      ]
+      }
+  ]
+  })
+
+  if (user.patient) {
+    user.isPatient = true;
+    user.helpTypes = user.patient.help_types.map((elem) => ({description:  elem.description, id: elem.id, name: elem.name }));
+    user.network = user.patient.volunteers.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description }));
+  } else {
+    user.isPatient = false;
+    user.helpTypes = user.volunteer.help_types.map((elem) => ({description: elem.description, id: elem.id, name: elem.name }));
+    user.network = user.volunteer.patients.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description }));
+  }
+  return user;
+}
+
 
 module.exports = router;
