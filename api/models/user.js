@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     delete values.password;
     delete values.volunteer;
     delete values.patient;
-    
+
     return values;
   }
   user.associate = function(models) {

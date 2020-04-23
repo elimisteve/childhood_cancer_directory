@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import HelpPicker from './HelpPicker.jsx';
 import Loader from './Loader.jsx';
 import UserForm from '../styles/UserForm';
@@ -29,27 +30,47 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
+    console.log('context', this.context);
     api.get('/helpTypes').then((res) => {
-      const selectedHelpTypes = this.context.patient ? this.context.patient.helpTypes.map((e) => e.id)
-        : this.context.volunteer.helpTypes.map((e) => e.id);
+      const { user } = this.context;
+      console.log('context in user profile', user);
       this.setState({
+        location: user.location,
         helpTypes: res.data,
         loading: false,
-        checkedHelpTypes: new Set(selectedHelpTypes),
-        name: this.context.name,
+        checkedHelpTypes: new Set(this.context.user.helpTypes.map((elem) => (elem.id))),
+        name: user.name,
+        description: user.description,
+        username: user.user_name,
       });
     }).catch((err) => {
-      console.log(err);
+      console.log('error in userprofile', err);
       // TODO ERROR HANDLING;
     });
   }
 
-  handleSubmit = () => { 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    api.post('/users/edit', {
+      name: this.state.name,
+      description: this.state.description,
+      location: this.state.location,
+      username: this.state.username,
+      password: this.state.password,
+      id: this.context.user.id,
+      helpTypeIds: [...this.state.checkedHelpTypes],
+    }).then((updatedUser) => {
+      this.context.setUser(updatedUser);
+      this.props.history.push('/patients');
+    }).catch((error) => {
+      console.log('an error occured');
+    });
 
   }
 
   handleHelpChange = (event) => {
-    const id = event.target.id.match(/\d+$/)[0];
+    console.log('event in handle help change', event.target);
+    const id = parseInt(event.target.id.match(/\d+$/)[0], 10);
     const nextChecked = new Set(this.state.checkedHelpTypes);
     if (event.target.checked) {
       nextChecked.add(id);
@@ -97,7 +118,7 @@ class UserProfile extends React.Component {
       <UserForm onSubmit = {this.handleSubmit}>
         <InputElementContainer>
           <label htmlFor='profileName'>Name</label>
-          <input type='text' required={true} id='profileName' value={this.state.lastName} onChange={this.handleNameChange} />
+          <input type='text' required={true} id='profileName' value={this.state.name} onChange={this.handleNameChange} />
         </InputElementContainer>
         <InputElementContainer>
           <label htmlFor='profileLocation'>Location</label>
@@ -112,14 +133,15 @@ class UserProfile extends React.Component {
           <input type='email' id='profileUsername' required={true} value={this.state.username} onChange={this.handleUsernameChange} />
         </InputElementContainer>
         <InputElementContainer>
-          <label htmlFor='profilePassword'>Password</label>
-          <input type='password' id='profilePassword' required={true} value={this.state.password} onChange={this.handlePasswordChange} />
+          <label htmlFor='profilePassword'>Password (leave blank to not change)</label>
+          <input type='password' id='profilePassword' value={this.state.password} onChange={this.handlePasswordChange} />
         </InputElementContainer>
         <InputElementContainer>
           <label htmlFor='profilePasswordConf'>Confirm Password</label>
           <input type='password' id='profilePasswordConf' value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
         </InputElementContainer>
         <HelpPicker header='Help types' helpTypes={this.state.helpTypes} handleChange={this.handleHelpChange} checked={this.state.checkedHelpTypes} />
+        <input type='submit' value='save'/>
       </UserForm>
     );
 
@@ -127,4 +149,4 @@ class UserProfile extends React.Component {
 }
 
 UserProfile.contextType = UserContext;
-export default UserProfile;
+export default withRouter(UserProfile);

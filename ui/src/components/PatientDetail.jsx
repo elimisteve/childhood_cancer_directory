@@ -66,13 +66,13 @@ const PatientDetail = () => {
           <StyledElement>Description: {patient.description}</StyledElement>
           <div>
             <StyledH2>Needs help with:</StyledH2>
-            {patient.help_types.map(((elem) => (
+            {patient.helpTypes.map(((elem) => (
               <div key={elem.id} >
                 {elem.name}
               </div>
             )))}
             <StyledH2>People helping:</StyledH2>
-            {patient.volunteers.map(((elem) => (
+            {patient.network.map(((elem) => (
               <div key={elem.id} >
                 {elem.name}
               </div>

@@ -7,44 +7,36 @@ const Patient = require('../models').patient;
 const Help = require('../models').help_type;
 const secret = require('../config/authSecret');
 const { Op } = require('sequelize');
+const passport = require('passport');
 
-router.post('/signup', function(req, res) {
+router.post('/signup', async function(req, res) {
   if(!req.body.username || !req.body.password || !req.body.location || !req.body.isPatient || !req.body.name){
     res.status(400).send({msg: "Must at least post name, user name, email, password, location, and patient boolean"})
   }else{
     console.log(User)
-    User.create({
+   let user = await User.create({
       name: req.body.name,
       user_name: req.body.username,
       password: req.body.password,
       location: req.body.location,
       description: req.body.description,
-    }).then((user) =>{
-      user['token'] = jwt.sign(JSON.parse(JSON.stringify(user)),'nodeauthsecret' , { expiresIn: 86400 * 30 })
-      if(req.body.isPatient){
-        user['isPatient'] = true;
-        Patient.create({
-          user_id: user.id
-        }).then((patient) => {
-          patient.setHelp_types(req.body.helpTypeIds);
-        })
+    })
+    token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', { expiresIn: 86400 * 30 })
+    if (req.body.isPatient) {
+      let patient = await Patient.create({
+        user_id: user.id
+      });
+      await patient.setHelp_types(req.body.helpTypeIds);
       }
       else{
-        user['isPatient'] = false;
-        Volunteer.create({
+        let volunteer = await Volunteer.create({
           user_id: user.id
-        }).then((volunteer) => {
-          volunteer.setHelp_types(req.body.helpTypeIds)
         })
+        await volunteer.setHelp_types(req.body.helpTypeIds)
       }
-      user.network = [];
-      user.helpTypes = [];
-      return res.status(200).send({ user});
-  })
-    .catch((error) => {
-      console.log(error);
-      res.status(400).send(error);
-    })
+      user = await getUser(user.id);
+      user['token'] = token
+      return res.status(200).send(user);
   }
 });
 
@@ -77,23 +69,6 @@ router.post('/signin', (req,res) => {
    res.status(400).send(error))
 })
 
-router.post('/patients/:patientId/volunteers/:volunteerId', (req,res) => {
-  const patientId = parseInt(req.params.patientId), volunteerId = parseInt(req.params.volunteerId);
-  if(isNaN(patientId) || isNaN(volunteerId)){
-    res.status(400).send('invalid parameters');
-  }
-  Patient.findOne({
-    where: {
-      user_id: patientId
-    }
-  }).then((patient) => {
-    patient.addVolunteers(volunteerId).then((pv) =>{
-      res.status(200).send(pv);
-    }).catch((err) => {
-      console.log(err);
-    });
-  })
-})
 
 router.get('/volunteers', (req,res) => {
   User.findAll({
@@ -139,17 +114,63 @@ router.get('/patients/:id', function(req, res){
   })
 })
 
-router.get('/volunteers/:id', function(req, res) {
+router.get('/users/:id', function(req, res){
   const id = parseInt(req.params.id);
   if(isNaN(id)){
     return res.status(400).send("not a valid Id");
   }
-   getUser(id).then((user) => {
-     res.status(200).send(user)
-   }).catch((err) => {
-     console.log(err)
-   });
+  getUser(id).then((user) => {
+    res.status(200).send(user);
+  }).catch((err) => {
+    console.log(err);
+  })
 })
+
+router.post('/patients/:patientId/volunteers/:volunteerId', (req,res) => {
+  const patientId = parseInt(req.params.patientId), volunteerId = parseInt(req.params.volunteerId);
+  if(isNaN(patientId) || isNaN(volunteerId)){
+    res.status(400).send('invalid parameters');
+  }
+  Patient.findOne({
+    where: {
+      user_id: patientId
+    }
+  }).then((patient) => {
+    patient.addVolunteers(volunteerId).then((pv) =>{
+      res.status(200).send(pv);
+    }).catch((err) => {
+      console.log(err);
+    });
+  })
+})
+router.post('/users/edit', passport.authenticate('jwt', {session: false}), function(req,res){
+  var decoded = jwt.verify(req.headers.authorization.split(' ')[1], secret);
+  if(req.body.id !== decoded.id){
+    return res.status(401).send('unauthorized to edit this user');
+  }
+  User.findOne({
+    where: {
+      id: req.body.id
+    }
+
+  }).then((user) => {
+    if(req.body.password){
+      user.password = req.body.password;
+    }
+    user.name = req.body.name;
+    user.user_name = req.body.username;
+    user.location = req.body.location;
+    user.save().then((user) => {
+      var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', { expiresIn: 86400 * 30 })
+      user = getUser(user.id);
+      user['token'] = token
+      res.status(200).send(user);
+    }).catch((err)=>{
+      console.log(err)
+    })
+  })
+})
+
 
 const getUser = async (id=-1, userName='') => {
  let user = await User.findOne({
@@ -188,7 +209,6 @@ const getUser = async (id=-1, userName='') => {
       }
   ]
   })
-
   if (user.patient) {
     user.isPatient = true;
     user.helpTypes = user.patient.help_types.map((elem) => ({description:  elem.description, id: elem.id, name: elem.name }));
@@ -200,6 +220,5 @@ const getUser = async (id=-1, userName='') => {
   }
   return user;
 }
-
 
 module.exports = router;

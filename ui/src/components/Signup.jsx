@@ -101,9 +101,9 @@ class Signup extends React.Component {
       helpTypeIds,
     }).then((response) => {
       console.log('RESPONSE', response);
-      this.context.setUser(response.data.user);
-      setToken(response.data.user.token);
-      if (response.data.user.isPatient) {
+      this.context.setUser(response.data);
+      setToken(response.data.token);
+      if (response.data.isPatient) {
         this.props.history.push('/volunteers');
       }
       else {

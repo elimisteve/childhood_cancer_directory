@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const apiUrl = 'http://localhost:3000';
 
-let token = null
+let token = null;
 const setToken = (newToken) => {
   token = 'JWT '+ newToken;
 };

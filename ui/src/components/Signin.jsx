@@ -14,9 +14,10 @@ class Signin extends React.Component {
       username: this.state.email,
       password: this.state.password,
     }).then((response) => {
-      this.context.setUser(response.data.user);
-      setToken(response.data.user.token);
-      if (response.data.user.isPatient) {
+      console.log('response in signin', response);
+      this.context.setUser(response.data);
+      setToken(response.data.token);
+      if (response.data.isPatient) {
         this.props.history.push('/volunteers');
       }
       else {
