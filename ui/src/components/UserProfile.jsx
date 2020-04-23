@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import HelpPicker from './HelpPicker.jsx';
 import Loader from './Loader.jsx';
 import UserForm from '../styles/UserForm';
-import api from '../api';
+import api, { setToken } from '../api';
 import UserContext from '../UserContext';
 
 const InputElementContainer = styled.div`
@@ -60,7 +60,8 @@ class UserProfile extends React.Component {
       id: this.context.user.id,
       helpTypeIds: [...this.state.checkedHelpTypes],
     }).then((updatedUser) => {
-      this.context.setUser(updatedUser);
+      this.context.setUser(updatedUser.data);
+      setToken(updatedUser.data.token);
       this.props.history.push('/patients');
     }).catch((error) => {
       console.log('an error occured');

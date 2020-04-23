@@ -21,8 +21,7 @@ color: ${(props) => props.theme.colors.main};
 const Navigation = () => {
   return (
   <UserContext.Consumer>
-    {(value) => {
-      return (
+      {(value) => (
         <StyledNav>
           <StyledLink to='/volunteers'>Volunteers</StyledLink>
           <StyledLink to='/patients'>Patients</StyledLink>
@@ -30,8 +29,8 @@ const Navigation = () => {
           {!(value.user.token) && <StyledLink to='/signin'>Sign in</StyledLink>}
           {value.user.token && <StyledLink to='/users/edit'>My Profile</StyledLink>}
         </StyledNav>
-      );
-    }}
+      )
+      }
   </UserContext.Consumer>
   );
 };
