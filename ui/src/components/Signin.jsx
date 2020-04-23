@@ -3,6 +3,31 @@ import api, {setToken} from '../api';
 import styled from 'styled-components';
 import UserContext from '../UserContext';
 import { withRouter } from 'react-router-dom';
+
+
+const StyledContainer = styled.div`
+display: flex;
+justify-content :center;
+align-items: center;
+height: 60%;
+`;
+const StyledForm = styled.form`
+background-color: ${(props) => (props.theme.colors.main)};
+max-width: 300px;
+margin: auto;
+display: flex;
+flex-direction: column;
+padding: 2%;
+border-raduius: 5px;
+`;
+const StyledDiv = styled.div`
+padding: 7px;
+display: flex;
+flex-direction: column;
+& > * {
+  padding:5px;
+}
+`;
 class Signin extends React.Component {
   constructor(props) {
     super(props);
@@ -34,15 +59,22 @@ class Signin extends React.Component {
   handlePasswordChange = (event) => {
     this.setState({ password: event.target.value });
   }
+
   render() {
     return (
-      <form onSubmit={this.handleSubmit} >
-        <label htmlFor='loginEmail'>User Name</label>
-        <input id='loginEmail' type='text' value={this.state.email} onChange={this.handleEmailChange} />
-        <label for='loginPassword'>User Name</label>
-        <input id='loginPassword' type='password' value={this.state.password} onChange={this.handlePasswordChange} />
-        <input type="submit" value="Login" />
-      </form>
+      <StyledContainer>
+        <StyledForm onSubmit={this.handleSubmit} >
+          <StyledDiv>
+            <label htmlFor='loginEmail'>User Name(email)</label>
+            <input id='loginEmail' type='text' value={this.state.email} onChange={this.handleEmailChange} />
+          </StyledDiv>
+          <StyledDiv>
+            <label htmlFor='loginPassword'>password</label>
+            <input id='loginPassword' type='password' value={this.state.password} onChange={this.handlePasswordChange} />
+          </StyledDiv>
+          <input type="submit" value="Login" />
+        </StyledForm>
+      </StyledContainer>
     );
   }
 }
