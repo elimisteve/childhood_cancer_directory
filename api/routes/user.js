@@ -160,6 +160,7 @@ router.post('/users/edit', passport.authenticate('jwt', {session: false}), funct
     user.name = req.body.name;
     user.user_name = req.body.username;
     user.location = req.body.location;
+    user.description = req.body.description;
     user.save().then((user) => {
       var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', { expiresIn: 86400 * 30 })
       user = getUser(user.id);
