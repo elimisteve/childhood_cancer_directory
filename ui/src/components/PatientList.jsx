@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import Patient from './Patient.jsx';
+import {
+  Link,
+  useRouteMatch,
+} from 'react-router-dom';
+import ListItem from '../styles/ListItem';
 import api from '../api';
 
 const StyledDiv = styled.div``;
@@ -8,6 +12,7 @@ const StyledDiv = styled.div``;
 const PatientList = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     api.get('/patients').then((response) => {
@@ -21,12 +26,13 @@ const PatientList = () => {
       <StyledDiv>
       <h1>Patients</h1>
         {patients.map((patient) => (
-          <Patient
-            key={patient.id}
-            name={patient.name}
-            location={patient.location}
-            id={patient.id}
-          />
+          <Link to={`${url}/${patient.id}`} key={patient.id} >
+            <ListItem>
+              <h2>{`${patient.name}`}</h2>
+              <div>{patient.description}</div>
+              <div>{patient.location}</div>
+            </ListItem>
+          </Link>
         ))}
       </StyledDiv>
     );

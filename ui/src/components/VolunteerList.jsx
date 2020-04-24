@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Volunteer from './Volunteer.jsx';
+import ListItem from '../styles/ListItem';
 import api from '../api';
 
 const StyledDiv = styled.div``;
@@ -20,9 +20,11 @@ const VolunteerList = () => {
     return (
       <StyledDiv>
         {volunteers.map((volunteer) => (
-          <Volunteer
-            key={volunteer.id} name={volunteer.name}
-            location={volunteer.location} />
+          <ListItem key={volunteer.id}>
+            <h1>{`${volunteer.name}`}</h1>
+            <div>{volunteer.description}</div>
+            <div>{volunteer.location}</div>
+          </ListItem>
         ))}
       </StyledDiv>
     );
