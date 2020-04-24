@@ -151,21 +151,38 @@ router.post('/users/edit', passport.authenticate('jwt', {session: false}), funct
   User.findOne({
     where: {
       id: req.body.id
-    }
+    },
+    include: [
+      {
+        model: Volunteer
+      },
+      {
+        model: Patient
+      }
+    ]
 
-  }).then((user) => {
+  }).then( async (user) => {
     if(req.body.password){
       user.password = req.body.password;
+    }
+    if(user.patient){
+      await user.patient.setHelp_types(req.body.helpTypeIds);
+    }
+    else{
+      await user.volunteer.setHelp_types(req.body.helpTypeIds);
     }
     user.name = req.body.name;
     user.user_name = req.body.username;
     user.location = req.body.location;
     user.description = req.body.description;
-    user.save().then(async (user) => {
+    user.save().then((user) => {
       var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', { expiresIn: 86400 * 30 })
-      user = await getUser(user.id);
-      user['token'] = token
-      res.status(200).send(user);
+      getUser(user.id).then((user) => {
+        user['token'] = token
+        res.status(200).send(user);
+      }).catch((err) => {
+        console.log(err);
+      });
     }).catch((err)=>{
       console.log(err)
     })
