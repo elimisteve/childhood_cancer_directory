@@ -38,6 +38,7 @@ router.post('/signup', async function(req, res) {
       user['token'] = token
       return res.status(200).send(user);
   }
+  next();
 });
 
 router.post('/signin', (req,res) => {
@@ -47,9 +48,7 @@ router.post('/signin', (req,res) => {
   getUser(-1, req.body.username)
   .then((user) => {
     if(!user){
-      return res.status(401).send({
-        msg: 'Username not found'
-      })
+      return res.status(401).send('Username not found');
     }
     user.comparePassword(req.body.password, (err, isMatch) => {
       if(isMatch && !err) {
@@ -61,7 +60,7 @@ router.post('/signin', (req,res) => {
         return res.status(200).send(user)
       } else {
         console.log(err);
-        res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
+        res.status(401).send('Wrong password.');
        }
     })
   })
@@ -190,50 +189,53 @@ router.post('/users/edit', passport.authenticate('jwt', {session: false}), funct
 })
 
 
-const getUser = async (id=-1, userName='') => {
- let user = await User.findOne({
-    where:{
-      [Op.or]: [
-      {id: id},
-      {user_name: userName}
-      ]
-    },
-    include: [
-      {
-        model: Volunteer,
-        include: [{
-          model: Help
+const getUser = async (id = -1, userName = '') => {
+    let user = await User.findOne({
+      where: {
+        [Op.or]: [
+          { id: id },
+          { user_name: userName }
+        ]
+      },
+      include: [
+        {
+          model: Volunteer,
+          include: [{
+            model: Help
+          },
+          {
+            model: Patient,
+            include: [{
+              model: User
+            }]
+          }
+          ]
         },
         {
           model: Patient,
           include: [{
-            model: User
-          }]
-        }
-      ] 
-      },
-      {
-        model: Patient,
-        include: [{
-          model: Help
-        },
-        {
-          model: Volunteer,
-          include: [{
-            model: User
-          }]
+            model: Help
+          },
+          {
+            model: Volunteer,
+            include: [{
+              model: User
+            }]
+          }
+          ]
         }
       ]
-      }
-  ]
-  })
+    })
+    if(!user){
+      return null;
+    }
   if (user.patient) {
     user.isPatient = true;
-    user.helpTypes = user.patient.help_types.map((elem) => ({description:  elem.description, id: elem.id, name: elem.name }));
+    user.helpTypes = user.patient.help_types.map((elem) => ({ description: elem.description, id: elem.id, name: elem.name }));
     user.network = user.patient.volunteers.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description }));
   } else {
     user.isPatient = false;
-    user.helpTypes = user.volunteer.help_types.map((elem) => ({description: elem.description, id: elem.id, name: elem.name }));
+    user.helpTypes = user.volunteer.help_types.map((elem) => ({ description: elem.description, id: elem.id, name: elem.name }));
     user.network = user.volunteer.patients.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description }));
   }
   return user;
