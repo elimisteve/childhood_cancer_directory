@@ -3,12 +3,12 @@ import api, {setToken} from '../api';
 import styled from 'styled-components';
 import UserContext from '../UserContext';
 import { withRouter } from 'react-router-dom';
+import ErrorBox from './ErrorBox.jsx';
 
 
 const StyledContainer = styled.div`
 display: flex;
-justify-content :center;
-align-items: center;
+flex-direction: column;
 height: 60%;
 `;
 const StyledForm = styled.form`
@@ -31,7 +31,7 @@ flex-direction: column;
 class Signin extends React.Component {
   constructor(props) {
     super(props);
-    this.state = ({ email: '', password: '' });
+    this.state = ({ email: '', password: '', error: null });
   }
 
   handleSubmit = (event) => {
@@ -48,6 +48,9 @@ class Signin extends React.Component {
       else {
         this.props.history.push('/patients');
       }
+    }).catch((error) => {
+      console.log('error', error.response.data);
+      this.setState({ error: error.response.data });
     });
     event.preventDefault();
   }
@@ -63,14 +66,15 @@ class Signin extends React.Component {
   render() {
     return (
       <StyledContainer>
+      { this.state.error && <ErrorBox message={this.state.error} /> }
         <StyledForm onSubmit={this.handleSubmit} >
           <StyledDiv>
             <label htmlFor='loginEmail'>User Name(email)</label>
-            <input id='loginEmail' type='text' value={this.state.email} onChange={this.handleEmailChange} />
+            <input id='loginEmail' type='text' required={ true } value={this.state.email} onChange={this.handleEmailChange} />
           </StyledDiv>
           <StyledDiv>
             <label htmlFor='loginPassword'>password</label>
-            <input id='loginPassword' type='password' value={this.state.password} onChange={this.handlePasswordChange} />
+            <input id='loginPassword' type='password' required={ true } value={this.state.password} onChange={this.handlePasswordChange} />
           </StyledDiv>
           <input type="submit" value="Login" />
         </StyledForm>
