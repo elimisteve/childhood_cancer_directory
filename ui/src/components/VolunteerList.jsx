@@ -4,6 +4,9 @@ import ListItem from '../styles/ListItem';
 import api from '../api';
 
 const StyledDiv = styled.div``;
+const StyledH1 = styled.h1`
+margin-left: 2%;
+`;
 
 const VolunteerList = () => {
   const [loading, setLoading] = useState(true);
@@ -19,6 +22,7 @@ const VolunteerList = () => {
   if (!loading) {
     return (
       <StyledDiv>
+        <StyledH1>Volunteers</StyledH1>
         {volunteers.map((volunteer) => (
           <ListItem key={volunteer.id}>
             <h1>{`${volunteer.name}`}</h1>

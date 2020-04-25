@@ -9,6 +9,15 @@ import api from '../api';
 
 const StyledDiv = styled.div``;
 
+const StyledH1 = styled.h1`
+margin-left: 2%;
+`;
+
+const StyledLink = styled(Link)`
+color:black;
+text-decoration: none;
+`;
+
 const PatientList = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,15 +33,15 @@ const PatientList = () => {
   if (!loading) {
     return (
       <StyledDiv>
-      <h1>Patients</h1>
+      <StyledH1>Patients</StyledH1>
         {patients.map((patient) => (
-          <Link to={`${url}/${patient.id}`} key={patient.id} >
+          <StyledLink to={`${url}/${patient.id}`} key={patient.id} >
             <ListItem>
               <h2>{`${patient.name}`}</h2>
               <div>{patient.description}</div>
               <div>{patient.location}</div>
             </ListItem>
-          </Link>
+          </StyledLink>
         ))}
       </StyledDiv>
     );
