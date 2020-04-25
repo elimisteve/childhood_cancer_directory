@@ -147,7 +147,9 @@ router.post('/patients/:patientId/volunteers/:volunteerId', (req,res) => {
     }
   }).then((patient) => {
     patient.addVolunteers(volunteerId).then((pv) =>{
-      res.status(200).send(pv);
+      getUser(patientId).then((patient) => {
+        res.status(200).send(patient);
+      })
     }).catch((err) => {
       console.log(err);
     });
