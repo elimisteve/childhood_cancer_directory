@@ -32,7 +32,6 @@ const HelpButton = styled.button`
 `;
 
 const PatientDetail = () => {
-  const isPatient = sessionStorage.patient === true;
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [patient, setPatient] = useState(null);
@@ -50,12 +49,10 @@ const PatientDetail = () => {
       <div>loading</div>
     );
   }
-  const addVolunteer = (patientId, volunteerId) => {
-    alert(volunteerId);
-    api.post(`patients/${patientId}/volunteers/${volunteerId}`).then((response) => {
-    });
-
-  }
+  const addVolunteer = async (patientId, volunteerId) => {
+    const response = await api.post(`patients/${patientId}/volunteers/${volunteerId}`);
+    setPatient(response.data);
+  };
   return (
     <UserContext.Consumer>
       {(value) => {
