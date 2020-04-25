@@ -10,8 +10,8 @@ const { Op } = require('sequelize');
 const passport = require('passport');
 
 router.post('/signup', async function(req, res) {
-  if(!req.body.username || !req.body.password || !req.body.location || !req.body.isPatient || !req.body.name){
-   return res.status(400).send({msg: "Must at least post name, user name, email, password, location, and patient boolean"})
+  if(!req.body.username || !req.body.password || !req.body.location || req.body.isPatient === null || !req.body.name){
+   return res.status(400).send( "Must at least post name, user name, email, password, location, and patient boolean");
   }
   if(req.body.password.length < 6){
     return res.status(401).send('Password must be at least 6 characters');

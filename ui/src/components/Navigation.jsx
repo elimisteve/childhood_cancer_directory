@@ -11,8 +11,11 @@ background-color: ${(props) => props.theme.colors.secondary};
 display: flex;
 justify-content: space-around;
 padding 1em;
-margin-bottom: 1em;
+height: 100%;
+margin-left: 2%;
+flex: 4;
 `;
+
 
 const StyledLink = styled(Link)`
 color: ${(props) => props.theme.colors.main};
