@@ -5,6 +5,7 @@ import HelpPicker from './HelpPicker.jsx';
 import api, {setToken} from '../api';
 import UserContext from '../UserContext';
 import UserForm from '../styles/UserForm';
+import ErrorBox from './ErrorBox';
 
 
 const InputElementContainer = styled.div`
@@ -27,6 +28,7 @@ class Signup extends React.Component {
       helpTypes: [],
       loading: true,
       checkedHelpTypes: new Set(),
+      error: null,
     };
   }
 
@@ -86,7 +88,7 @@ class Signup extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.password !== this.state.passwordConf) {
-      alert('Passwords do not match');
+      this.setState({ error: 'Passwords do not match' });
       return;
     }
     const helpTypeIds = [...this.state.checkedHelpTypes];
@@ -110,6 +112,7 @@ class Signup extends React.Component {
         this.props.history.push('/patients');
       }
     }).catch((error) => {
+      this.setState({ error: error.response.data });
     });
   }
 
@@ -119,6 +122,8 @@ class Signup extends React.Component {
       return <div>loading...</div>;
     }
     return (
+      <>
+      {this.state.error && <ErrorBox message={this.state.error} />}
       <UserForm onSubmit={this.handleSubmit}>
         <InputElementContainer>
           <h2>Are you a Patient or Volunteer?</h2>
@@ -155,6 +160,7 @@ class Signup extends React.Component {
         <HelpPicker header={`Select what you ${this.state.isPatient ? 'need' : 'can'} help with`} helpTypes={this.state.helpTypes} checked={this.state.checkedHelpTypes} handleChange={this.handleHelpChange} />
         <input type="submit" value="Sign up" />
       </UserForm>
+      </>
     );
   }
 }

@@ -11,8 +11,12 @@ const passport = require('passport');
 
 router.post('/signup', async function(req, res) {
   if(!req.body.username || !req.body.password || !req.body.location || !req.body.isPatient || !req.body.name){
-    res.status(400).send({msg: "Must at least post name, user name, email, password, location, and patient boolean"})
-  }else{
+   return res.status(400).send({msg: "Must at least post name, user name, email, password, location, and patient boolean"})
+  }
+  if(req.body.password.length < 6){
+    return res.status(401).send('Password must be at least 6 characters');
+  }
+    try{
     console.log(User)
    let user = await User.create({
       name: req.body.name,
@@ -37,8 +41,15 @@ router.post('/signup', async function(req, res) {
       user = await getUser(user.id);
       user['token'] = token
       return res.status(200).send(user);
-  }
-  next();
+    } catch (e) {
+      console.log(e)
+      if(e.name =="SequelizeUniqueConstraintError"){
+        res.status(409).send('Username already exists');
+      }
+      else{
+        res.status(401).send('An error occured');
+      }
+    }
 });
 
 router.post('/signin', (req,res) => {
