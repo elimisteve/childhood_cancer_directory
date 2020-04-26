@@ -126,7 +126,7 @@ class Signup extends React.Component {
       {this.state.error && <ErrorBox message={this.state.error} />}
       <UserForm onSubmit={this.handleSubmit}>
         <InputElementContainer>
-          <h2>Are you a Patient or Volunteer?</h2>
+          <h2>Which are you?</h2>
           <label htmlFor="signupPatient">Patient</label>
           <input id="signupPatient" value="patient" name="signupRadio" type="radio" checked={this.state.isPatient} onChange={this.handlePatientChange} />
           <label htmlFor="signupVolunteer">Volunteer</label>
@@ -141,7 +141,7 @@ class Signup extends React.Component {
           <input type='text' required={true} id='signupLocation' value={this.state.location} onChange={this.handleLocationChange} />
         </InputElementContainer>
         <InputElementContainer>
-        <label htmlFor="signupDescription">Description</label>
+        <label htmlFor="signupDescription">About you</label>
         <textarea id="signupDescription" required={true} value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
         </InputElementContainer>
         <InputElementContainer>
@@ -157,7 +157,7 @@ class Signup extends React.Component {
           <input type='password' id='signupPasswordConf' value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
         </InputElementContainer>
 
-        <HelpPicker header={`Select what you ${this.state.isPatient ? 'need' : 'can'} help with`} helpTypes={this.state.helpTypes} checked={this.state.checkedHelpTypes} handleChange={this.handleHelpChange} />
+        <HelpPicker header={`What ${this.state.isPatient ? 'do you need' : 'can you'} help with`} helpTypes={this.state.helpTypes} checked={this.state.checkedHelpTypes} handleChange={this.handleHelpChange} />
         <input type="submit" value="Sign up" />
       </UserForm>
       </>
