@@ -35,6 +35,7 @@ const PatientDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [patient, setPatient] = useState(null);
+  const [userAssociated, setUserAssociated] = useState(false);
   useEffect(() => {
     api.get(`/patients/${id}`).then((response) => {
       setPatient(response.data);
@@ -69,14 +70,23 @@ const PatientDetail = () => {
               </div>
             )))}
             <StyledH2>People helping:</StyledH2>
-            {patient.network.map(((elem) => (
-              <div key={elem.id} >
-                {elem.name}
-              </div>
-            )))}
+              {patient.network.map(((elem) => {
+                if (elem.id === value.id) {
+                  setUserAssociated(true);
+                }
+                return (
+                  <div key={elem.id} >
+                    {elem.name}
+                  </div>
+                );
+              }
+              ))}
           </div>
-          { value.user.isPatient === false && <HelpButton onClick={() => { addVolunteer(patient.id, value.user.id); } }>Help this person</HelpButton>}
-        </StyledContainer>
+            {(value.user.isPatient === false && userAssociated === false)
+              && <HelpButton onClick={() => { addVolunteer(patient.id, value.user.id); }}>
+                Help this person
+              </HelpButton>}
+          </StyledContainer>
         );
       }}
     </UserContext.Consumer>
