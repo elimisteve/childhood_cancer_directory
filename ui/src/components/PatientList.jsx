@@ -5,6 +5,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import ListItem from '../styles/ListItem';
+import Loader from './Loader.jsx';
 import api from '../api';
 
 const StyledDiv = styled.div``;
@@ -46,6 +47,6 @@ const PatientList = () => {
       </StyledDiv>
     );
   }
-  return (<div>loading</div>);
+  return (<Loader />);
 };
 export default PatientList;

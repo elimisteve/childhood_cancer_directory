@@ -5,7 +5,8 @@ import HelpPicker from './HelpPicker.jsx';
 import api, {setToken} from '../api';
 import UserContext from '../UserContext';
 import UserForm from '../styles/UserForm';
-import ErrorBox from './ErrorBox';
+import ErrorBox from './ErrorBox.jsx';
+import Loader from './Loader.jsx';
 
 
 const InputElementContainer = styled.div`
@@ -15,7 +16,6 @@ border-bottom: 2px solid grey;
 
 class Signup extends React.Component {
   constructor(props) {
-    console.log('PROPS IN SINUP', props);
     super(props);
     this.state = {
       isPatient: true,
@@ -91,6 +91,7 @@ class Signup extends React.Component {
       this.setState({ error: 'Passwords do not match' });
       return;
     }
+    this.setState({loading: true});
     const helpTypeIds = [...this.state.checkedHelpTypes];
     console.log('help types in submit', helpTypeIds);
     api.post('/signup', {
@@ -112,14 +113,14 @@ class Signup extends React.Component {
         this.props.history.push('/patients');
       }
     }).catch((error) => {
-      this.setState({ error: error.response.data });
+      this.setState({ error: error.response.data, loading: false });
     });
   }
 
 
   render() {
     if (this.state.loading) {
-      return <div>loading...</div>;
+      return <Loader/>;
     }
     return (
       <>

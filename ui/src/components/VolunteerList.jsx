@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ListItem from '../styles/ListItem';
+import Loader from './Loader.jsx';
 import api from '../api';
 
 const StyledDiv = styled.div``;
@@ -34,7 +35,7 @@ const VolunteerList = () => {
     );
   }
   return (
-    <div>loading</div>
+    <Loader/>
   );
 };
 

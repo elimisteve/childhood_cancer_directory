@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {
-  Switch,
-  Route,
   Link,
   useRouteMatch,
 } from 'react-router-dom';
+import Loader from './Loader.jsx';
 import Offer from './Offer.jsx';
-import CreateOffer from './CreateOffer.jsx';
 import api from '../api';
 
 const OfferList = () => {
@@ -18,7 +16,6 @@ const OfferList = () => {
       setOffers(response.data);
       setLoading(false);
     }).catch((error) => {
-      console.log(error);
     });
   }, []);
 
@@ -32,7 +29,7 @@ const OfferList = () => {
                 <Offer name={offer.name} description={offer.description} />
               </div>
             ))
-            : <div>loading</div>
+            : <Loader />
         }
     </>
   );

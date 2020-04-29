@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import UserContext from '../UserContext';
 import { withRouter } from 'react-router-dom';
 import ErrorBox from './ErrorBox.jsx';
+import Loader from './Loader.jsx';
 
 
 const StyledContainer = styled.div`
@@ -31,15 +32,17 @@ flex-direction: column;
 class Signin extends React.Component {
   constructor(props) {
     super(props);
-    this.state = ({ email: '', password: '', error: null });
+    this.state = ({
+      email: '', password: '', error: null, loading: false,
+    });
   }
 
   handleSubmit = (event) => {
+    this.setState({ loading: true });
     api.post('/signin', {
       username: this.state.email,
       password: this.state.password,
     }).then((response) => {
-      console.log('response in signin', response);
       this.context.setUser(response.data);
       setToken(response.data.token);
       if (response.data.isPatient) {
@@ -49,8 +52,7 @@ class Signin extends React.Component {
         this.props.history.push('/patients');
       }
     }).catch((error) => {
-      console.log('error', error.response.data);
-      this.setState({ error: error.response.data });
+      this.setState({ error: error.response.data, loading: false });
     });
     event.preventDefault();
   }
@@ -64,6 +66,9 @@ class Signin extends React.Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <Loader />;
+    }
     return (
       <StyledContainer>
       { this.state.error && <ErrorBox message={this.state.error} /> }

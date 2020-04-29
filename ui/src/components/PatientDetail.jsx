@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import api from '../api';
+import Loader from './Loader';
 import UserContext from '../UserContext';
 
 const StyledContainer = styled.div`
@@ -47,7 +48,7 @@ const PatientDetail = () => {
   }, []);
   if (loading) {
     return (
-      <div>loading</div>
+      <Loader/>
     );
   }
   const addVolunteer = async (patientId, volunteerId) => {
