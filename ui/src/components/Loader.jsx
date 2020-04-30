@@ -13,6 +13,9 @@ to {
 `;
 
 const Container = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
 width: 100%;
 height: 100%;
 text-align: center;
@@ -25,7 +28,7 @@ const Rotate = styled.div`
 `;
 
 const StyledImg = styled.img`
-height: 50%;
+max-height: 50px;
 width: auto;
 `;
 
