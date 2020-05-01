@@ -7,6 +7,8 @@ const StyledContainer = styled.div`
 display:flex;
 width: 100%;
 padding-bottom: 2%;
+position: sticky;
+top:0px;
 `;
 
 const TopBar = () => (
