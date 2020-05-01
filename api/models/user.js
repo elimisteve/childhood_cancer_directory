@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     location:  {type: DataTypes.STRING, allowNull : false},
     description: {type: DataTypes.STRING, allowNull: false},
     password: {type: DataTypes.STRING, allowNull: false},
-    token: DataTypes.VIRTUAL,
     isPatient: DataTypes.VIRTUAL,
     helpTypes: DataTypes.VIRTUAL,
     network: DataTypes.VIRTUAL,

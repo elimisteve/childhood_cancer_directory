@@ -39,8 +39,7 @@ router.post('/signup', async function(req, res) {
         await volunteer.setHelp_types(req.body.helpTypeIds)
       }
       user = await getUser(user.id);
-      user['token'] = token
-      return res.status(200).send(user);
+      return res.status(200).send({ user, token });
     } catch (e) {
       console.log(e)
       if(e.name =="SequelizeUniqueConstraintError"){
@@ -67,8 +66,7 @@ router.post('/signin', (req,res) => {
         jwt.verify(token, secret, function(err, data){
           console.log(err, data);
         })
-        user['token'] = token;
-        return res.status(200).send(user)
+        return res.status(200).send({ user, token })
       } else {
         console.log(err);
         res.status(401).send('Wrong password.');
@@ -149,7 +147,7 @@ router.post('/patients/:patientId/volunteers/:volunteerId', (req,res) => {
     patient.addVolunteers(volunteerId).then((pv) =>{
       getUser(patientId).then((patient) => {
         res.status(200).send(patient);
-      })
+      });
     }).catch((err) => {
       console.log(err);
     });
