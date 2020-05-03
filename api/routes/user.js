@@ -5,7 +5,7 @@ const User= require('../models').user
 const Volunteer = require('../models').volunteer;
 const Patient = require('../models').patient;
 const Help = require('../models').help_type;
-const secret = require('../config/authSecret');
+const secret = process.env.SECRET;
 const { Op } = require('sequelize');
 const passport = require('passport');
 
@@ -63,10 +63,7 @@ router.post('/signin', (req,res) => {
     user.comparePassword(req.body.password, (err, isMatch) => {
       if(isMatch && !err) {
         var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 86400*30})
-        jwt.verify(token, secret, function(err, data){
-          console.log(err, data);
-        })
-        return res.status(200).send({ user, token })
+        return res.status(200).send({ token })
       } else {
         console.log(err);
         res.status(401).send('Wrong password.');
