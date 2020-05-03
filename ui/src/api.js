@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:3000/api/';
+const apiUrl = 'http://localhost:3000/api/'; //local
+//const apiUrl = '/api/'; //aws
 
 let token = null;
 const setToken = (newToken) => {
@@ -11,7 +12,6 @@ const apiObj = axios.create({
   baseURL: apiUrl,
 });
 apiObj.interceptors.request.use((config) => {
-  console.log('token in api', token);
   config.headers.Authorization = token;
   return config;
 });

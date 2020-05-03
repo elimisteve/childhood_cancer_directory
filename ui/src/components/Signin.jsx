@@ -1,5 +1,6 @@
 import React from 'react';
-import api, {setToken} from '../api';
+import api, { setToken } from '../api';
+import jwt from 'jsonwebtoken';
 import styled from 'styled-components';
 import UserContext from '../UserContext';
 import { withRouter } from 'react-router-dom';
@@ -14,7 +15,7 @@ height: 60%;
 `;
 const StyledForm = styled.form`
 background-color: ${(props) => (props.theme.colors.main)};
-max-width: 300px;
+max-width: 400px;
 margin: auto;
 display: flex;
 flex-direction: column;
@@ -33,7 +34,7 @@ class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      email: '', password: '', error: null, loading: false,
+      email: '', password: '', error: null, loading: false, rememberMe: false,
     });
   }
 
@@ -43,15 +44,20 @@ class Signin extends React.Component {
       username: this.state.email,
       password: this.state.password,
     }).then((response) => {
-      this.context.setUser(response.data);
-      setToken(response.data.token);
-      if (response.data.isPatient) {
+      const user = jwt.decode(response.data);
+      this.context.setUser(user);
+      setToken(response.data);
+      if (this.state.rememberMe) {
+        localStorage.setItem('token', response.data);
+      }
+      if (user.isPatient) {
         this.props.history.push('/volunteers');
       }
       else {
         this.props.history.push('/patients');
       }
     }).catch((error) => {
+      console.log('in catch', error);
       this.setState({ error: error.response.data, loading: false });
     });
     event.preventDefault();
@@ -63,6 +69,10 @@ class Signin extends React.Component {
 
   handlePasswordChange = (event) => {
     this.setState({ password: event.target.value });
+  }
+
+  handleRememberMeChange = (event) => {
+    this.setState({ rememberMe: event.target.checked });
   }
 
   render() {
@@ -80,6 +90,12 @@ class Signin extends React.Component {
           <StyledDiv>
             <label htmlFor='loginPassword'>password</label>
             <input id='loginPassword' type='password' required={ true } value={this.state.password} onChange={this.handlePasswordChange} />
+          </StyledDiv>
+          <StyledDiv>
+            <span>
+              <label htmlFor='loginRememberMe'>Remember me</label>
+              <input id='loginRememberMe' type='checkbox' checked={this.state.rememberMe} onChange={this.handleRememberMeChange} />
+            </span>
           </StyledDiv>
           <input type="submit" value="Login" />
         </StyledForm>

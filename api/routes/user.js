@@ -25,7 +25,6 @@ router.post('/signup', async function(req, res) {
       location: req.body.location,
       description: req.body.description,
     })
-    token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', { expiresIn: 86400 * 30 })
     if (req.body.isPatient) {
       let patient = await Patient.create({
         user_id: user.id
@@ -39,7 +38,8 @@ router.post('/signup', async function(req, res) {
         await volunteer.setHelp_types(req.body.helpTypeIds)
       }
       user = await getUser(user.id);
-      return res.status(200).send({ user, token });
+      token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', { expiresIn: 86400 * 30 })
+      return res.status(200).send(token);
     } catch (e) {
       console.log(e)
       if(e.name =="SequelizeUniqueConstraintError"){
@@ -63,7 +63,7 @@ router.post('/signin', (req,res) => {
     user.comparePassword(req.body.password, (err, isMatch) => {
       if(isMatch && !err) {
         var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 86400*30})
-        return res.status(200).send({ token })
+        return res.status(200).send(token)
       } else {
         console.log(err);
         res.status(401).send('Wrong password.');

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 import HelpPicker from './HelpPicker.jsx';
 import api, {setToken} from '../api';
 import UserContext from '../UserContext';
@@ -29,6 +30,7 @@ class Signup extends React.Component {
       loading: true,
       checkedHelpTypes: new Set(),
       error: null,
+      rememberMe: false,
     };
   }
 
@@ -44,6 +46,10 @@ class Signup extends React.Component {
 
   handlePatientChange = () => {
     this.setState({ isPatient: !this.state.isPatient });
+  }
+
+  handleRememberMeChange = (event) => {
+    this.setState({rememberMe: event.target.checked});
   }
 
   handleDescriptionChange = (event) => {
@@ -103,9 +109,12 @@ class Signup extends React.Component {
       isPatient: this.state.isPatient,
       helpTypeIds,
     }).then((response) => {
-      console.log('RESPONSE', response);
-      this.context.setUser(response.data);
-      setToken(response.data.token);
+      const user = jwt.decode(response.data);
+      this.context.setUser(user);
+      if (this.state.rememberMe) {
+        localStorage.set('token', response.data);
+      }
+      setToken(response.data);
       if (response.data.isPatient) {
         this.props.history.push('/volunteers');
       }
@@ -158,7 +167,13 @@ class Signup extends React.Component {
           <input type='password' id='signupPasswordConf' value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
         </InputElementContainer>
 
-        <HelpPicker header={`What ${this.state.isPatient ? 'do you need' : 'can you'} help with`} helpTypes={this.state.helpTypes} checked={this.state.checkedHelpTypes} handleChange={this.handleHelpChange} />
+        <InputElementContainer>
+          <HelpPicker header={`What ${this.state.isPatient ? 'do you need' : 'can you'} help with?`} helpTypes={this.state.helpTypes} checked={this.state.checkedHelpTypes} handleChange={this.handleHelpChange} />
+        </InputElementContainer>
+          <InputElementContainer>
+            <label htmlFor='signupRememberMe'>Remember me</label>
+            <input type='checkbox' id='signupRememberMe' checked={this.state.rememberMe} onChange={this.handleRememberMeChange} />
+          </InputElementContainer>
         <input type="submit" value="Sign up" />
       </UserForm>
       </>

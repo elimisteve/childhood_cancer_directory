@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+padding-left:20px;
+`;
+
 
 const HelpPicker = (props) => (
     <div>
       <h2>{props.header}</h2>
       {
         props.helpTypes.map((help) => (
-          <div key={help.id}>
+          <StyledDiv key={help.id}>
             <label htmlFor={`helpType${help.id}`}>
               {`${help.name}`}
               <input
@@ -17,7 +23,7 @@ const HelpPicker = (props) => (
                 name={help.name}
                 onChange={props.handleChange}/>
             </label>
-          </div>
+          </StyledDiv>
         ))
       }
     </div>

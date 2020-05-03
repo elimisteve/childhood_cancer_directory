@@ -21,16 +21,25 @@ const StyledLink = styled(Link)`
 color: ${(props) => props.theme.colors.main};
 `;
 
+const StyledButton = styled(StyledLink)``;
+
 const Navigation = () => {
+
+  const logOut = (setUserFn) => {
+    setUserFn(null);
+    localStorage.removeItem('token');
+  };
+
   return (
   <UserContext.Consumer>
       {(value) => (
         <StyledNav>
           <StyledLink to='/volunteers'>Volunteers</StyledLink>
           <StyledLink to='/patients'>Patients</StyledLink>
-          {!(value.user.token) && <StyledLink to='/signup'>Sign up</StyledLink>}
-          {!(value.user.token) && <StyledLink to='/signin'>Sign in</StyledLink>}
-          {value.user.token && <StyledLink to='/users/edit'>My Profile</StyledLink>}
+          {!(value.user) && <StyledLink to='/signup'>Sign up</StyledLink>}
+          {!(value.user) && <StyledLink to='/signin'>Sign in</StyledLink>}
+          {value.user && <StyledLink to='/users/edit'>My Profile</StyledLink>}
+          {value.user && <StyledButton onClick={() => logOut(value.setUser)}>log out</StyledButton>}
         </StyledNav>
       )
       }

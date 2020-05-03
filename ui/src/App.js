@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import jwt from 'jsonwebtoken';
 import { ThemeProvider } from 'styled-components';
 import {
   HashRouter as Router,
@@ -9,10 +10,19 @@ import TopBar from './components/TopBar.jsx';
 import routes from './routes';
 import theme from './theme';
 import UserContext from './UserContext';
+import { setToken } from './api';
 
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const userToken = localStorage.getItem('token');
+    if (userToken) {
+      const decodedUser = jwt(userToken);
+      setToken(userToken);
+      setUser(decodedUser);
+    }
+  }, []);
   return (
     <div className="App">
       <ThemeProvider theme={theme}>

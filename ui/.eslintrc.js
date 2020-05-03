@@ -3,5 +3,6 @@ module.exports = {
   parser: 'babel-eslint',
   globals: {
     sessionStorage: true,
+    localStorage: true,
   }
 };

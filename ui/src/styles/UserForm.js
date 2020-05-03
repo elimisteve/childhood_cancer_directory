@@ -10,6 +10,7 @@ padding-left: 2.5rem;
 padding-right: 2.5rem;
 margin-left: auto;
 margin-right: auto;
+margin-bottom: 2.5rem;
 `;
 
 export default UserForm;
