@@ -77,7 +77,7 @@ router.post('/signin', (req,res) => {
 
 router.get('/volunteers', (req,res) => {
   User.findAll({
-    attributes: ['name', 'location', 'user_name', 'description'],
+    attributes: ['id', 'name', 'location', 'user_name', 'description'],
     include: [{
       model: Volunteer,
       required: true,
@@ -108,6 +108,19 @@ router.get('/patients', (req, res) => {
 })
 
 router.get('/patients/:id', function(req, res){
+  const id = parseInt(req.params.id);
+  if(isNaN(id)){
+    return res.status(400).send("not a valid Id");
+  }
+  getUser(id).then((user) => {
+    res.status(200).send(user);
+  }).catch((err) => {
+    console.log(err);
+  })
+})
+
+
+router.get('/volunteers/:id', function(req, res){
   const id = parseInt(req.params.id);
   if(isNaN(id)){
     return res.status(400).send("not a valid Id");
@@ -238,12 +251,12 @@ const getUser = async (id = -1, userName = '') => {
       return null;
     }
   if (user.patient) {
-    user.isPatient = true;
-    user.helpTypes = user.patient.help_types.map((elem) => ({ description: elem.description, id: elem.id, name: elem.name }));
+    user.is_patient = true;
+    user.help_types = user.patient.help_types.map((elem) => ({ description: elem.description, id: elem.id, name: elem.name }));
     user.network = user.patient.volunteers.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description }));
   } else {
-    user.isPatient = false;
-    user.helpTypes = user.volunteer.help_types.map((elem) => ({ description: elem.description, id: elem.id, name: elem.name }));
+    user.is_patient = false;
+    user.help_types = user.volunteer.help_types.map((elem) => ({ description: elem.description, id: elem.id, name: elem.name }));
     user.network = user.volunteer.patients.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description }));
   }
   return user;
