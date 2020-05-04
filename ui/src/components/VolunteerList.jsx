@@ -35,13 +35,17 @@ const VolunteerList = () => {
       <StyledDiv>
         <StyledH1>Volunteers</StyledH1>
         {volunteers.map((volunteer) => (
-          <StyledLink to={`${url}/${volunteer.id}`} key={volunteer.id}>
             <ListItem key={volunteer.id}>
-              <h1>{`${volunteer.name}`}</h1>
+            <h2>
+              <StyledLink to={`${url}/${volunteer.id}`} >
+                {volunteer.name}
+              </StyledLink>
+          {' / '}
+              <a href={`mailto:${volunteer.user_name}`}>{volunteer.user_name}</a>
+            </h2>
               <div>{volunteer.description}</div>
               <div>{volunteer.location}</div>
             </ListItem>
-          </StyledLink>
         ))}
       </StyledDiv>
     );

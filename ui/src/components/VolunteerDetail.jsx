@@ -1,9 +1,8 @@
 import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import api from '../api';
-import Loader from './Loader';
-import ErrorBox from './ErrorBox.jsx';
+import Loader from './Loader.jsx';
 
 const StyledContainer = styled.div`
 background-color:  ${(props) => props.theme.colors.main};
@@ -20,6 +19,10 @@ margin-right: auto;
 const StyledElement = styled.div`
 padding: 10px;
 border-bottom: 2px solid grey;
+`;
+
+const StyledNetworkItem = styled.div`
+padding: 2px;
 `;
 
 const StyledH2 = styled.h2`
@@ -63,9 +66,9 @@ const VolunteerDetail = () => {
       </StyledElement>
       <StyledH2>Currently helping:</StyledH2>
       {volunteer.network.map(((elem) => (
-        <div key={elem.id} >
-          {elem.name}
-        </div>
+        <StyledNetworkItem key={elem.id} >
+         <Link to={`/patients/${elem.id}`}>{elem.name}</Link>
+        </StyledNetworkItem>
       )
       ))}
 

@@ -36,13 +36,17 @@ const PatientList = () => {
       <StyledDiv>
       <StyledH1>Patients</StyledH1>
         {patients.map((patient) => (
-          <StyledLink to={`${url}/${patient.id}`} key={patient.id} >
-            <ListItem>
-              <h2>{`${patient.name}`}</h2>
+            <ListItem key={patient.id}>
+            <h2>
+              <StyledLink to={`${url}/${patient.id}`} >
+                {patient.name}
+              </StyledLink>
+              {' / '}
+              <a href={`mailto:${patient.user_name}`}>{patient.user_name}</a>
+            </h2>
               <div>{patient.description}</div>
               <div>{patient.location}</div>
             </ListItem>
-          </StyledLink>
         ))}
       </StyledDiv>
     );

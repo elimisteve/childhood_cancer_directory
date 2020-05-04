@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import api from '../api';
 import Loader from './Loader';
 import UserContext from '../UserContext';
@@ -25,6 +25,10 @@ border-bottom: 2px solid grey;
 const StyledH2 = styled.h2`
 margin-left: auto;
 margin-right: auto;
+`;
+
+const StyledNetworkItem = styled.div`
+padding: 2px;
 `;
 
 const HelpButton = styled.button`
@@ -77,9 +81,11 @@ const PatientDetail = () => {
                   setUserAssociated(true);
                 }
                 return (
-                  <div key={elem.id} >
-                    {elem.name}
-                  </div>
+                  <StyledNetworkItem key={elem.id} >
+                    <Link to={`/volunteers/${elem.id}`}>
+                      {elem.name}
+                    </Link>
+                  </StyledNetworkItem>
                 );
               }
               ))}
