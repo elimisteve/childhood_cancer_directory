@@ -253,11 +253,11 @@ const getUser = async (id = -1, userName = '') => {
   if (user.patient) {
     user.is_patient = true;
     user.help_types = user.patient.help_types.map((elem) => ({ description: elem.description, id: elem.id, name: elem.name }));
-    user.network = user.patient.volunteers.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description }));
+    user.network = user.patient.volunteers.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description, id: elem.user.id }));
   } else {
     user.is_patient = false;
     user.help_types = user.volunteer.help_types.map((elem) => ({ description: elem.description, id: elem.id, name: elem.name }));
-    user.network = user.volunteer.patients.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description }));
+    user.network = user.volunteer.patients.map((elem) => ({ name: elem.user.name, location: elem.user.location, description: elem.user.description, id: elem.user.id }));
   }
   return user;
 }
