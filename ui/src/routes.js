@@ -4,7 +4,8 @@ import VolunteerList from './components/VolunteerList.jsx';
 import PatientList from './components/PatientList.jsx';
 import Signin from './components/Signin.jsx';
 import Signup from './components/Signup.jsx';
-import PatientDetails from './components/PatientDetail.jsx';
+import PatientDetail from './components/PatientDetail.jsx';
+import VolunteerDetail from './components/VolunteerDetail.jsx';
 import CreateOffer from './components/CreateOffer.jsx';
 import UserProfile from './components/UserProfile.jsx';
 
@@ -13,6 +14,21 @@ export default [
     path: '/users/edit',
     exact: true,
     component: <UserProfile />,
+  },
+  {
+    path: '/volunteers/:id',
+    exact: false,
+    component: <VolunteerDetail />,
+  },
+  {
+    path: '/patients/:id',
+    exact: false,
+    component: <PatientDetail />,
+  },
+  {
+    path: '/offers/new',
+    exact: false,
+    component: <CreateOffer />,
 
   },
   {
@@ -22,24 +38,13 @@ export default [
   },
   {
     path: '/volunteers',
-    exact: false,
+    exact: true,
     component: <VolunteerList />,
-  },
-  {
-    path: '/offers/new',
-    exact: false,
-    component: <CreateOffer />,
-
   },
   {
     path: '/offers',
     exact: false,
     component: <OfferList />,
-  },
-  {
-    path: '/patients/:id',
-    exact: false,
-    component: <PatientDetails />,
   },
   {
     path: '/patients',

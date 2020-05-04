@@ -14,11 +14,11 @@ import { setToken } from './api';
 
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   useEffect(() => {
     const userToken = localStorage.getItem('token');
     if (userToken) {
-      const decodedUser = jwt(userToken);
+      const decodedUser = jwt.decode(userToken);
       setToken(userToken);
       setUser(decodedUser);
     }

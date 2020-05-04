@@ -23,7 +23,7 @@ text-align: center;
 
 const Rotate = styled.div`
  display: inline-block;
- animation: ${rotate} 2s linear infinite;
+ animation: ${rotate} 1s linear infinite;
  padding: 2rem 1rem;
 `;
 

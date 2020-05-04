@@ -34,7 +34,7 @@ class UserProfile extends React.Component {
     console.log('context', this.context);
     api.get('/helpTypes').then((res) => {
       const { user } = this.context;
-      if (!user) {
+      if (!user.user_name) {
         this.props.history.push('/signin');
       }
       console.log('context in user profile', user);
@@ -42,7 +42,7 @@ class UserProfile extends React.Component {
         location: user.location,
         helpTypes: res.data,
         loading: false,
-        checkedHelpTypes: new Set(this.context.user.helpTypes.map((elem) => (elem.id))),
+        checkedHelpTypes: new Set(this.context.user.help_types.map((elem) => (elem.id))),
         name: user.name,
         description: user.description,
         username: user.user_name,

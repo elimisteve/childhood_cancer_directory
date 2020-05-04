@@ -36,6 +36,7 @@ const PatientDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [patient, setPatient] = useState(null);
+  const [error, setError] = useState(null)
   const [userAssociated, setUserAssociated] = useState(false);
   useEffect(() => {
     api.get(`/patients/${id}`).then((response) => {
@@ -62,10 +63,10 @@ const PatientDetail = () => {
         <StyledContainer>
           <StyledH2>{patient.name}</StyledH2>
           <StyledElement>Location: {patient.location}</StyledElement>
-          <StyledElement>Description: {patient.description}</StyledElement>
+          <StyledElement>About: {patient.description}</StyledElement>
           <div>
             <StyledH2>Needs help with:</StyledH2>
-            {patient.helpTypes.map(((elem) => (
+            {patient.help_types.map(((elem) => (
               <div key={elem.id} >
                 {elem.name}
               </div>
@@ -83,7 +84,7 @@ const PatientDetail = () => {
               }
               ))}
           </div>
-            {(value.user.isPatient === false && userAssociated === false)
+            {(value.user.is_patient === false && userAssociated === false)
               && <HelpButton onClick={() => { addVolunteer(patient.id, value.user.id); }}>
                 Help this person
               </HelpButton>}

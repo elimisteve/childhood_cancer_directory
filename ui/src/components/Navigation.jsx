@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import {
   Link,
 } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import UserContext from '../UserContext';
-
 const StyledNav = styled.nav`
 color: ${(props) => props.theme.colors.main};
 background-color: ${(props) => props.theme.colors.secondary};
@@ -23,11 +23,11 @@ color: ${(props) => props.theme.colors.main};
 
 const StyledButton = styled(StyledLink)``;
 
-const Navigation = () => {
-
+const Navigation = (props) => {
   const logOut = (setUserFn) => {
-    setUserFn(null);
+    setUserFn({});
     localStorage.removeItem('token');
+    props.history.push('/patients');
   };
 
   return (
@@ -36,10 +36,10 @@ const Navigation = () => {
         <StyledNav>
           <StyledLink to='/volunteers'>Volunteers</StyledLink>
           <StyledLink to='/patients'>Patients</StyledLink>
-          {!(value.user) && <StyledLink to='/signup'>Sign up</StyledLink>}
-          {!(value.user) && <StyledLink to='/signin'>Sign in</StyledLink>}
-          {value.user && <StyledLink to='/users/edit'>My Profile</StyledLink>}
-          {value.user && <StyledButton onClick={() => logOut(value.setUser)}>log out</StyledButton>}
+          {!(value.user.user_name) && <StyledLink to='/signup'>Sign up</StyledLink>}
+          {!(value.user.user_name) && <StyledLink to='/signin'>Sign in</StyledLink>}
+          {value.user.user_name && <StyledLink to='/users/edit'>My Profile</StyledLink>}
+          {value.user.user_name && <StyledButton onClick={() => logOut(value.setUser)}>Log Out</StyledButton>}
         </StyledNav>
       )
       }
@@ -47,4 +47,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default withRouter(Navigation);
