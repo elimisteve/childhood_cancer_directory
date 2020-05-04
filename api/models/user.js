@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     location:  {type: DataTypes.STRING, allowNull : false},
     description: {type: DataTypes.STRING, allowNull: false},
     password: {type: DataTypes.STRING, allowNull: false},
-    isPatient: DataTypes.VIRTUAL,
-    helpTypes: DataTypes.VIRTUAL,
+    is_patient: DataTypes.VIRTUAL,
+    help_types: DataTypes.VIRTUAL,
     network: DataTypes.VIRTUAL,
   }, {});
     user.beforeSave((user, options) => {
