@@ -7,9 +7,8 @@ import { withRouter } from 'react-router-dom';
 import UserContext from '../UserContext';
 const StyledNav = styled.nav`
 color: ${(props) => props.theme.colors.main};
-background-color: ${(props) => props.theme.colors.secondary};
 display: flex;
-justify-content: space-around;
+justify-content: right;
 height: 100%;
 margin-left: 1vw;
 align-items: center;
@@ -18,8 +17,9 @@ flex: 4;
 
 
 const StyledLink = styled(Link)`
-color: ${(props) => props.theme.colors.main};
+color: ${(props) => props.theme.colors.secondary};
 top: 50%;
+padding-right: 1rem;
 `;
 
 const StyledButton = styled(StyledLink)``;

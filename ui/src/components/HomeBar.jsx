@@ -6,7 +6,6 @@ import {
 import HandsPurple from '../assets/HandsPurple.png';
 
 const StyledBar = styled.div`
-background-color: green;
 text-align: center;
 flex:1;
 height: 100%;
