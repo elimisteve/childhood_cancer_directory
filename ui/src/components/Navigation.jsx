@@ -17,6 +17,7 @@ flex: 4;
 
 
 const StyledLink = styled(Link)`
+font-size: ${(props) => props.theme.fontSizes.medium};
 color: ${(props) => props.theme.colors.secondary};
 top: 50%;
 padding-right: 1rem;
