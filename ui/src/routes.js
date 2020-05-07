@@ -34,7 +34,7 @@ export default [
   {
     path: '/',
     exact: true,
-    component: <VolunteerList />,
+    component: <PatientList />,
   },
   {
     path: '/volunteers',

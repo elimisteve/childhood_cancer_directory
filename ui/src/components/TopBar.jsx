@@ -6,9 +6,9 @@ import HomeBar from './HomeBar.jsx';
 const StyledContainer = styled.div`
 display:flex;
 width: 100%;
-padding-bottom: 2%;
 position: sticky;
 top:0px;
+height: 5vh;
 `;
 
 const TopBar = () => (

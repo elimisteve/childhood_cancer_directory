@@ -17,6 +17,10 @@ color:black;
 text-decoration: none;
 `;
 
+const StyledText = styled.p`
+font-size: ${(props) => props.theme.fontSizes.small}
+`;
+
 const VolunteerList = () => {
   const [loading, setLoading] = useState(true);
   const [volunteers, setVolunteers] = useState([]);
@@ -43,8 +47,8 @@ const VolunteerList = () => {
           {' / '}
               <a href={`mailto:${volunteer.user_name}`}>{volunteer.user_name}</a>
             </h2>
-              <div>{volunteer.description}</div>
-              <div>{volunteer.location}</div>
+              <StyledText>{volunteer.description}</StyledText>
+              <StyledText>{volunteer.location}</StyledText>
             </ListItem>
         ))}
       </StyledDiv>

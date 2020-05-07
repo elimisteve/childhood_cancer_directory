@@ -10,15 +10,16 @@ color: ${(props) => props.theme.colors.main};
 background-color: ${(props) => props.theme.colors.secondary};
 display: flex;
 justify-content: space-around;
-padding 1em;
 height: 100%;
-margin-left: 2%;
+margin-left: 1vw;
+align-items: center;
 flex: 4;
 `;
 
 
 const StyledLink = styled(Link)`
 color: ${(props) => props.theme.colors.main};
+top: 50%;
 `;
 
 const StyledButton = styled(StyledLink)``;

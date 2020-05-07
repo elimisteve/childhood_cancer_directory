@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledFooter = styled.div`
-position: absolute;
+position: fixed;
 width: 100%;
 bottom: 0;
-max-height: 75px;
-background-color : ${(props) => (props.theme.colors.main)};
+height: 5vh;
+background-color : ${(props) => (props.theme.colors.accent)};
 display: flex;
 justify-content: space-around;
 `;

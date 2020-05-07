@@ -5,6 +5,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import ListItem from '../styles/ListItem';
+import AboutText from './AboutText';
 import Loader from './Loader.jsx';
 import api from '../api';
 
@@ -17,6 +18,10 @@ margin-left: 2%;
 const StyledLink = styled(Link)`
 color:black;
 text-decoration: none;
+`;
+
+const StyledText = styled.p`
+font-size: ${(props) => props.theme.fontSizes.small}
 `;
 
 const PatientList = () => {
@@ -34,6 +39,7 @@ const PatientList = () => {
   if (!loading) {
     return (
       <StyledDiv>
+        <AboutText />
       <StyledH1>Patients</StyledH1>
         {patients.map((patient) => (
             <ListItem key={patient.id}>
@@ -44,8 +50,8 @@ const PatientList = () => {
               {' / '}
               <a href={`mailto:${patient.user_name}`}>{patient.user_name}</a>
             </h2>
-              <div>{patient.description}</div>
-              <div>{patient.location}</div>
+              <StyledText>{patient.description}</StyledText>
+              <StyledText>{patient.location}</StyledText>
             </ListItem>
         ))}
       </StyledDiv>
