@@ -7,6 +7,7 @@ import {
   Route,
 } from 'react-router-dom';
 import TopBar from './components/TopBar.jsx';
+import Footer from './components/Footer.jsx';
 import routes from './routes';
 import theme from './theme';
 import UserContext from './UserContext';
@@ -39,6 +40,7 @@ function App() {
                 </Route>
               ))}
             </Switch>
+            <Footer />
           </Router>
         </UserContext.Provider>
       </ThemeProvider>
