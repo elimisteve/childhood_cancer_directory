@@ -6,6 +6,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import styled from 'styled-components';
 import TopBar from './components/TopBar.jsx';
 import Footer from './components/Footer.jsx';
 import routes from './routes';
@@ -13,6 +14,16 @@ import theme from './theme';
 import UserContext from './UserContext';
 import { setToken } from './api';
 
+const StyledApp = styled.div.attrs(props => ({
+  className: 'App',
+}))`
+height: 100vh;
+`;
+
+const ContentContainer = styled.div`
+margin-top: 5vh;
+margin-bottom: 5vh;
+`;
 
 function App() {
   const [user, setUser] = useState({});
@@ -25,26 +36,28 @@ function App() {
     }
   }, []);
   return (
-    <div className="App">
+    <StyledApp>
       <ThemeProvider theme={theme}>
         <UserContext.Provider value ={{ user, setUser }}>
           <Router>
             <TopBar/>
-            <Switch>
-              {routes.map((route, index) => (
-                <Route
-                  key={index}
-                  path={route.path}
-                  exact={route.exact}>
-                  {route.component}
-                </Route>
-              ))}
-            </Switch>
+            <ContentContainer>
+              <Switch>
+                {routes.map((route, index) => (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}>
+                    {route.component}
+                  </Route>
+                ))}
+              </Switch>
+            </ContentContainer>
             <Footer />
           </Router>
         </UserContext.Provider>
       </ThemeProvider>
-    </div>
+    </StyledApp>
   );
 }
 export default App;

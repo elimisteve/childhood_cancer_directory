@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledP = styled.p`
-padding: 50px;
+margin: auto;
 max-width: 1000px;
 font-size: ${(props) => props.theme.fontSizes.medium}
 `;
