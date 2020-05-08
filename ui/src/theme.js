@@ -9,6 +9,8 @@ const theme = {
     medium: '1.5rem',
     large: '2rem',
   },
+  footerSize: '5vh',
+  headerSize: '5vh',
 };
 
 export default theme;

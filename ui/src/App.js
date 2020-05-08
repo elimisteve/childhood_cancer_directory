@@ -17,13 +17,13 @@ import { setToken } from './api';
 const StyledApp = styled.div.attrs(props => ({
   className: 'App',
 }))`
-height: 100vh;
+height: 96vh;
 `;
 
 const ContentContainer = styled.div`
-margin-top: 5vh;
-margin-bottom: 5vh;
+min-height: calc(100% - (${props => props.theme.headerSize} + ${props => props.theme.footerSize}));
 `;
+
 
 function App() {
   const [user, setUser] = useState({});

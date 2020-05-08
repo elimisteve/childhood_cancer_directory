@@ -6,7 +6,7 @@ const ListItem = styled.div`
   margin-right: 2%;
   border-radius: 5px;
   & > * {
-    padding: 10px;
+    padding-left: 5px;
   }
 `;
 
