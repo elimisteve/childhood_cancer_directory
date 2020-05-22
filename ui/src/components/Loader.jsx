@@ -13,8 +13,6 @@ to {
 `;
 
 const Container = styled.div`
-position: absolute;
-top: 50%;
 margin: auto;
 width: 100%;
 height: 100%;
