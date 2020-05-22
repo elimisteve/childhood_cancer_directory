@@ -1,0 +1,156 @@
+[
+  {
+    "targetGroup": "Blood Cancer",
+    "resourceType": "Financial",
+    "resourceName": "LLS COVID-19 PATIENT FINANCIAL AID PROGRAM",
+    "resourceDescription": "",
+    "link": "https://www.lls.org/support/financial-support/covid-19-assistance-program?spMailingID=42161721&spUserID=MTQ5OTgxOTU4MjM5S0&spJobID=1740107019&spReportId=MTc0MDEwNzAxOQS2",
+    "phone": "",
+    "id": 1
+  },
+  {
+    "targetGroup": "Childhood Cancer",
+    "resourceType": "Financial",
+    "resourceName": "Family Reach Application for Financial Treatment Program",
+    "resourceDescription": "",
+    "link": "https://familyreach.org/family-eligibility/application/",
+    "phone": "",
+    "id": 2
+  },
+  {
+    "targetGroup": "Lymphoma",
+    "resourceType": "Financial",
+    "resourceName": "Lymphoma Research Foundation COVID 19 Financial Assistance Grant",
+    "resourceDescription": "",
+    "link": "https://lymphoma.org/learn/supportservices/financialsupport/",
+    "phone": "",
+    "id": 3
+
+  },
+  {
+    "targetGroup": "Lymphoma",
+    "resourceType": "Financial",
+    "resourceName": "Lymphoma Research Foundation COVID 19 Financial Assistance Grant",
+    "resourceDescription": "",
+    "link": "https://lymphoma.org/learn/supportservices/financialsupport/",
+    "phone": "",
+    "id": 4
+  },
+  {
+    "targetGroup": "All Cancers",
+    "resourceType": "General Information",
+    "resourceName": "American Cancer Society General COVID 19 Resources",
+    "resourceDescription": "",
+    "link": "https://www.cancer.org/about-us/what-we-do/coronavirus-covid-19-and-cancer.html",
+    "phone": "",
+    "id": 5
+  },
+  {
+    "targetGroup": "Childhood Cancer",
+    "resourceType": "Camp/Childcare",
+    "resourceName": "Sunrise Association Day Camp",
+    "resourceDescription": "",
+    "link": "http://sunrisedaycamp.org/",
+    "phone": "",
+    "id": 6
+  },
+  {
+    "targetGroup": "All Cancers",
+    "resourceType": "Lodging during treatment",
+    "resourceName": "Each Hope Lodge",
+    "resourceDescription": "Offers cancer patients and their caregivers a free place to stay when their best hope for effective treatment may be in another city",
+    "link": "https://www.cancer.org/treatment/support-programs-and-services/patient-lodging/hope-lodge.html",
+    "phone": "",
+    "id": 7
+  },
+  {
+    "targetGroup": "Childhood Cancer",
+    "resourceType": "Lodging during treatment",
+    "resourceName": "Ronald McDonald House",
+    "resourceDescription": "provides a place for families to call home so they can stay close by their hospitalized child at little to no cost",
+    "link": "https://www.rmhc.org/ronald-mcdonald-house",
+    "phone": "",
+    "id": 8
+  },
+  {
+    "targetGroup": "Childhood Cancer",
+    "resourceType": "Essengial (wigs)",
+    "resourceName": "Wigs for kids",
+    "resourceDescription": "provides a place for families to call home so they can stay close by their hospitalized child at little to no cost",
+    "link": "https://www.wigsforkids.org/",
+    "phone": "",
+    "id": 9
+  },
+  {
+    "targetGroup": "All Cancers",
+    "resourceType": "Transportation: Air",
+    "resourceName": "Air Charity Network",
+    "resourceDescription": "Air Charity Network serves all 50 states and provides free flights to people in need of medical treatment.",
+    "link": "aircharitynetwork.org",
+    "phone": "877-621-7177",
+    "id": 10
+  },
+  {
+    "targetGroup": "All Cancers",
+    "resourceType": "Transportation: Ground",
+    "resourceName": "American Cancer Society’s Road to Recovery Program",
+    "resourceDescription": "Some local chapters of the American Cancer Society may offer volunteers to drive patients to and from treatment.",
+    "link": "",
+    "phone": "800-227-2345",
+    "id": 11
+  },
+  {
+    "targetGroup": "All Cancers",
+    "resourceType": "Transportation: Ground",
+    "resourceName": "Angel Wheels to Healing",
+    "resourceDescription": "Angel Wheels to Healing provides non-emergency, long distance ground transportation to financially disadvantaged patients for treatment.",
+    "link": "angelwheels.org",
+    "phone": "800-768-0238",
+    "id": 12
+  },
+  {
+    "targetGroup": "Veteran and service families with cancer",
+    "resourceType": "Lodging during treatment",
+    "resourceName": "Fisher House Foundation",
+    "resourceDescription": "Fisher House Foundation operates a network of comfort homes where military and veterans’ families can stay at no cost while a loved one is receiving treatment. Their Hero Miles program uses donated frequent flyer miles to bring family members to the bedside of ill service members.",
+    "link": "fisherhouse.org",
+    "phone": "",
+    "id": 13
+  },
+  {
+    "targetGroup": "People with chronic medical conditions",
+    "resourceType": "Transportation",
+    "resourceName": "Good Days",
+    "resourceDescription": "Good Days helps patients with chronic medical conditions who have limited financial means with transportation.",
+    "link": "mygooddays.org",
+    "phone": "877-968-7233",
+    "id": 14
+  },
+  {
+    "targetGroup": "All cancers",
+    "resourceType": "Transportation information",
+    "resourceName": "National Patient Travel Center",
+    "resourceDescription": "The National Patient Travel Center provides information about all forms of charitable, long-distance medical air transportation and provides referrals to all appropriate sources of help available in the national charitable medical air transportation network.",
+    "link": "patienttravel.org",
+    "phone": "800-296-1217",
+    "id": 15
+  },
+  {
+    "targetGroup": "Childhood cancer patients / survivors (ages 21-39)",
+    "resourceType": "Financial",
+    "resourceName": "The SAMFund for Young Adult Survivors of Cancer",
+    "resourceDescription": "The SAMFund provides support to young adults who are struggling financially due to cancer. Twice a year, the organization provides grants to survivors aged 21-39 to help with transportation-related expenses, among other financial expenses.",
+    "link": "thesamfund.org",
+    "phone": "866-439-9365",
+    "id": 16
+  },
+  {
+    "targetGroup": "All cancers",
+    "resourceType": "Financial",
+    "resourceName": "CancerCare",
+    "resourceDescription": "provides limited financial assistance for treatment-related transportation to people affected by cancer.800-813-HOPE (4673) and speaking with a CancerCare social worker to complete a brief interview. We can be reached from 9 a.m.–7 p.m. (ET) Monday through Thursday, and 9 a.m.–5 p.m. (ET) on Friday.",
+    "link": "https://www.cancercare.org/",
+    "phone": "",
+    "id": 17
+  }
+]

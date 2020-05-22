@@ -8,6 +8,7 @@ import PatientDetail from './components/PatientDetail.jsx';
 import VolunteerDetail from './components/VolunteerDetail.jsx';
 import CreateOffer from './components/CreateOffer.jsx';
 import UserProfile from './components/UserProfile.jsx';
+import ResourceList from './components/ResourceList.jsx';
 
 export default [
   {
@@ -60,5 +61,10 @@ export default [
     path: '/signup',
     exact: false,
     component: <Signup/>,
+  },
+  {
+    path: '/resources',
+    exact: false,
+    component: <ResourceList/>,
   },
 ];

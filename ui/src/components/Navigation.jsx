@@ -38,6 +38,7 @@ const Navigation = (props) => {
         <StyledNav>
           <StyledLink to='/volunteers'>Volunteers</StyledLink>
           <StyledLink to='/patients'>Patients</StyledLink>
+          <StyledLink to='/resources'>Resources</StyledLink>
           {!(value.user.user_name) && <StyledLink to='/signup'>Sign up</StyledLink>}
           {!(value.user.user_name) && <StyledLink to='/signin'>Sign in</StyledLink>}
           {value.user.user_name && <StyledLink to='/users/edit'>My Profile</StyledLink>}
