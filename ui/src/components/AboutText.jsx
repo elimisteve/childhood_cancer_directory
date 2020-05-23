@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const StyledP = styled.p`
 margin: auto;
 max-width: 1000px;
-font-size: ${(props) => props.theme.fontSizes.medium}
+font-size: ${(props) => props.theme.fontSizes.medium};
+padding: 2%;
 `;
 
 const AboutText = (props) => (

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//const apiUrl = 'http://localhost:3000/api/'; //local
-const apiUrl = '/api/'; //aws
+const apiUrl = 'http://localhost:3000/api/'; //local
+//const apiUrl = '/api/'; //aws
 
 let token = null;
 const setToken = (newToken) => {

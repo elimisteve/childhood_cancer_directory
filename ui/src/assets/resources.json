@@ -86,7 +86,7 @@
     "resourceType": "Transportation: Air",
     "resourceName": "Air Charity Network",
     "resourceDescription": "Air Charity Network serves all 50 states and provides free flights to people in need of medical treatment.",
-    "link": "aircharitynetwork.org",
+    "link": "http://aircharitynetwork.org",
     "phone": "877-621-7177",
     "id": 10
   },
@@ -104,7 +104,7 @@
     "resourceType": "Transportation: Ground",
     "resourceName": "Angel Wheels to Healing",
     "resourceDescription": "Angel Wheels to Healing provides non-emergency, long distance ground transportation to financially disadvantaged patients for treatment.",
-    "link": "angelwheels.org",
+    "link": "http://angelwheels.org",
     "phone": "800-768-0238",
     "id": 12
   },
@@ -113,7 +113,7 @@
     "resourceType": "Lodging during treatment",
     "resourceName": "Fisher House Foundation",
     "resourceDescription": "Fisher House Foundation operates a network of comfort homes where military and veterans’ families can stay at no cost while a loved one is receiving treatment. Their Hero Miles program uses donated frequent flyer miles to bring family members to the bedside of ill service members.",
-    "link": "fisherhouse.org",
+    "link": "http://fisherhouse.org",
     "phone": "",
     "id": 13
   },
@@ -122,7 +122,7 @@
     "resourceType": "Transportation",
     "resourceName": "Good Days",
     "resourceDescription": "Good Days helps patients with chronic medical conditions who have limited financial means with transportation.",
-    "link": "mygooddays.org",
+    "link": "http://mygooddays.org",
     "phone": "877-968-7233",
     "id": 14
   },
@@ -131,7 +131,7 @@
     "resourceType": "Transportation information",
     "resourceName": "National Patient Travel Center",
     "resourceDescription": "The National Patient Travel Center provides information about all forms of charitable, long-distance medical air transportation and provides referrals to all appropriate sources of help available in the national charitable medical air transportation network.",
-    "link": "patienttravel.org",
+    "link": "http://patienttravel.org",
     "phone": "800-296-1217",
     "id": 15
   },
@@ -140,7 +140,7 @@
     "resourceType": "Financial",
     "resourceName": "The SAMFund for Young Adult Survivors of Cancer",
     "resourceDescription": "The SAMFund provides support to young adults who are struggling financially due to cancer. Twice a year, the organization provides grants to survivors aged 21-39 to help with transportation-related expenses, among other financial expenses.",
-    "link": "thesamfund.org",
+    "link": "http://thesamfund.org",
     "phone": "866-439-9365",
     "id": 16
   },

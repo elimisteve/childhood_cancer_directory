@@ -7,6 +7,7 @@ import {
 import ListItem from '../styles/ListItem';
 import Loader from './Loader.jsx';
 import api from '../api';
+import ErrorBox from './ErrorBox.jsx';
 
 const StyledDiv = styled.div``;
 const StyledH1 = styled.h1`
@@ -24,16 +25,24 @@ font-size: ${(props) => props.theme.fontSizes.small}
 const VolunteerList = () => {
   const [loading, setLoading] = useState(true);
   const [volunteers, setVolunteers] = useState([]);
+  const [error, setError] = useState([]);
   const { url } = useRouteMatch();
 
   useEffect(() => {
+    if (error) {
+      setError(null);
+    }
     api.get('/volunteers').then((response) => {
-      console.log('vlist response', response);
       setVolunteers(response.data);
       setLoading(false);
+    }).catch((err) => {
+      setError(true);
     });
   }, []);
 
+  if (error) {
+    return <ErrorBox message='Must login to fetch volunteers' />;
+  }
   if (!loading) {
     return (
       <StyledDiv>

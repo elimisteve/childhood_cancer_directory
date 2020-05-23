@@ -5,7 +5,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import ListItem from '../styles/ListItem';
-import AboutText from './AboutText';
+import ErrorBox from './ErrorBox.jsx';
 import Loader from './Loader.jsx';
 import api from '../api';
 
@@ -27,22 +27,30 @@ font-size: ${(props) => props.theme.fontSizes.small}
 const PatientList = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { url } = useRouteMatch();
 
   useEffect(() => {
+    if (error) {
+      setError(null);
+    }
     api.get('/patients').then((response) => {
       setPatients(response.data);
       setLoading(false);
+    }).catch((err) => {
+      setError(true);
     });
   }, []);
 
+  if (error) {
+    return <ErrorBox message='Must login to fetch patients'/>;
+  }
   if (!loading) {
     return (
       <StyledDiv>
-        <AboutText />
-      <StyledH1>Patients</StyledH1>
+        <StyledH1>Patients</StyledH1>
         {patients.map((patient) => (
-            <ListItem key={patient.id}>
+          <ListItem key={patient.id}>
             <h2>
               <StyledLink to={`${url}/${patient.id}`} >
                 {patient.name}
@@ -50,9 +58,9 @@ const PatientList = () => {
               {' / '}
               <a href={`mailto:${patient.user_name}`}>{patient.user_name}</a>
             </h2>
-              <StyledText>{patient.description}</StyledText>
-              <StyledText>{patient.location}</StyledText>
-            </ListItem>
+            <StyledText>{patient.description}</StyledText>
+            <StyledText>{patient.location}</StyledText>
+          </ListItem>
         ))}
       </StyledDiv>
     );

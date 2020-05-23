@@ -23,7 +23,7 @@ const HomeBar = () => (
   <UserContext.Consumer>
     {(value) => (
     <StyledBar>
-      <StyledLink to={value.user.user_name ? '/users/edit' : '/signup'}>Childhood Cancer Directory</StyledLink>
+      <StyledLink to={value.user.user_name ? '/patients' : '/signup'}>Childhood Cancer Directory</StyledLink>
     </StyledBar>
     )}
   </UserContext.Consumer>

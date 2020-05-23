@@ -8,6 +8,7 @@ import UserContext from '../UserContext';
 import UserForm from '../styles/UserForm';
 import ErrorBox from './ErrorBox.jsx';
 import Loader from './Loader.jsx';
+import AboutText from './AboutText.jsx';
 
 
 const InputElementContainer = styled.div`
@@ -134,6 +135,7 @@ class Signup extends React.Component {
     return (
       <>
       {this.state.error && <ErrorBox message={this.state.error} />}
+      <AboutText/>
       <UserForm onSubmit={this.handleSubmit}>
         <InputElementContainer>
           <h2>Which are you?</h2>

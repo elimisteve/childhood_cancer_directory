@@ -29,16 +29,16 @@ const Navigation = (props) => {
   const logOut = (setUserFn) => {
     setUserFn({});
     localStorage.removeItem('token');
-    props.history.push('/patients');
+    props.history.push('/signin');
   };
 
   return (
   <UserContext.Consumer>
       {(value) => (
         <StyledNav>
-          <StyledLink to='/volunteers'>Volunteers</StyledLink>
-          <StyledLink to='/patients'>Patients</StyledLink>
-          <StyledLink to='/resources'>Resources</StyledLink>
+          {value.user.user_name && <StyledLink to='/volunteers'>Volunteers</StyledLink>}
+          {value.user.user_name && <StyledLink to='/patients'>Patients</StyledLink>}
+          {value.user.user_name && <StyledLink to='/resources'>Resources</StyledLink>}
           {!(value.user.user_name) && <StyledLink to='/signup'>Sign up</StyledLink>}
           {!(value.user.user_name) && <StyledLink to='/signin'>Sign in</StyledLink>}
           {value.user.user_name && <StyledLink to='/users/edit'>My Profile</StyledLink>}

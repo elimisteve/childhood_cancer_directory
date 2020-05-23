@@ -29,7 +29,7 @@ const ResourceList = () => {
             <StyledTd>{e.resourceType}</StyledTd>
             <StyledTd>{e.resourceName}</StyledTd>
             <StyledTd>{e.resourceDescription}</StyledTd>
-            <StyledTd><a href={e.link}>Website</a></StyledTd>
+            <StyledTd><a target='_blank' rel='noopener noreferrer' href={e.link}>Website</a></StyledTd>
             <StyledTd>{e.phone}</StyledTd>
           </tr>
         ))
