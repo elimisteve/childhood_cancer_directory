@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import UserContext from '../UserContext';
+import { setToken } from '../api';
 const StyledNav = styled.nav`
 color: ${(props) => props.theme.colors.main};
 display: flex;
@@ -28,6 +29,7 @@ const StyledButton = styled(StyledLink)``;
 const Navigation = (props) => {
   const logOut = (setUserFn) => {
     setUserFn({});
+    setToken(null);
     localStorage.removeItem('token');
     props.history.push('/signin');
   };
