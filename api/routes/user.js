@@ -75,7 +75,7 @@ router.post('/signin', (req,res) => {
 })
 
 
-router.get('/volunteers', (req,res) => {
+router.get('/volunteers', passport.authenticate('jwt', {session: false}), (req,res) => {
   User.findAll({
     attributes: ['id', 'name', 'location', 'user_name', 'description'],
     include: [{
@@ -91,7 +91,7 @@ router.get('/volunteers', (req,res) => {
   })
 })
 
-router.get('/patients', (req, res) => {
+router.get('/patients', passport.authenticate('jwt', {session: false}), (req, res) => {
   User.findAll({
     attributes: ['id', 'name', 'location', 'user_name', 'description'],
     include: [{
@@ -107,7 +107,7 @@ router.get('/patients', (req, res) => {
   })
 })
 
-router.get('/patients/:id', function(req, res){
+router.get('/patients/:id', passport.authenticate('jwt', {session: false}), function(req, res){
   const id = parseInt(req.params.id);
   if(isNaN(id)){
     return res.status(400).send("not a valid Id");
@@ -120,7 +120,7 @@ router.get('/patients/:id', function(req, res){
 })
 
 
-router.get('/volunteers/:id', function(req, res){
+router.get('/volunteers/:id', passport.authenticate('jwt', {session: false}), function(req, res){
   const id = parseInt(req.params.id);
   if(isNaN(id)){
     return res.status(400).send("not a valid Id");
@@ -132,7 +132,7 @@ router.get('/volunteers/:id', function(req, res){
   })
 })
 
-router.get('/users/:id', function(req, res){
+router.get('/users/:id', passport.authenticate('jwt', {session: false}), function(req, res){
   const id = parseInt(req.params.id);
   if(isNaN(id)){
     return res.status(400).send("not a valid Id");
