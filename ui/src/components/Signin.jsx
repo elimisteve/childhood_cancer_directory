@@ -6,6 +6,7 @@ import UserContext from '../UserContext';
 import { withRouter } from 'react-router-dom';
 import ErrorBox from './ErrorBox.jsx';
 import Loader from './Loader.jsx';
+import AboutText from './AboutText.jsx';
 
 
 const StyledContainer = styled.div`
@@ -80,26 +81,29 @@ class Signin extends React.Component {
       return <Loader />;
     }
     return (
-      <StyledContainer>
-      { this.state.error && <ErrorBox message={this.state.error} /> }
-        <StyledForm onSubmit={this.handleSubmit} >
-          <StyledDiv>
-            <label htmlFor='loginEmail'>User Name(email)</label>
-            <input id='loginEmail' type='text' required={ true } value={this.state.email} onChange={this.handleEmailChange} />
-          </StyledDiv>
-          <StyledDiv>
-            <label htmlFor='loginPassword'>password</label>
-            <input id='loginPassword' type='password' required={ true } value={this.state.password} onChange={this.handlePasswordChange} />
-          </StyledDiv>
-          <StyledDiv>
-            <span>
-              <label htmlFor='loginRememberMe'>Remember me</label>
-              <input id='loginRememberMe' type='checkbox' checked={this.state.rememberMe} onChange={this.handleRememberMeChange} />
-            </span>
-          </StyledDiv>
-          <input type="submit" value="Login" />
-        </StyledForm>
-      </StyledContainer>
+      <>
+        <AboutText />
+        <StyledContainer>
+          {this.state.error && <ErrorBox message={this.state.error} />}
+          <StyledForm onSubmit={this.handleSubmit} >
+            <StyledDiv>
+              <label htmlFor='loginEmail'>User Name(email)</label>
+              <input id='loginEmail' type='text' required={true} value={this.state.email} onChange={this.handleEmailChange} />
+            </StyledDiv>
+            <StyledDiv>
+              <label htmlFor='loginPassword'>password</label>
+              <input id='loginPassword' type='password' required={true} value={this.state.password} onChange={this.handlePasswordChange} />
+            </StyledDiv>
+            <StyledDiv>
+              <span>
+                <label htmlFor='loginRememberMe'>Remember me</label>
+                <input id='loginRememberMe' type='checkbox' checked={this.state.rememberMe} onChange={this.handleRememberMeChange} />
+              </span>
+            </StyledDiv>
+            <input type="submit" value="Login" />
+          </StyledForm>
+        </StyledContainer>
+      </>
     );
   }
 }
