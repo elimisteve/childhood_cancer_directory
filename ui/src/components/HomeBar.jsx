@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   Link,
 } from 'react-router-dom';
-import HandsPurple from '../assets/HandsPurple.png';
+import UserContext from '../UserContext';
 
 const StyledBar = styled.div`
 text-align: center;
@@ -11,18 +11,22 @@ flex:1;
 height: 100%;
 `;
 
-const StyledImg = styled.img`
-width: 40px;
-height: auto;
+const StyledLink = styled(Link)`
+font-size: ${(props) => props.theme.fontSizes.medium};
+color: ${(props) => props.theme.colors.secondary};
+top: 50%;
+padding-right: 1rem;
 `;
 
-const StyledLink = styled(Link)`
-`;
 
 const HomeBar = () => (
-  <StyledBar>
-    <StyledLink to={'/patients'}><StyledImg src={ HandsPurple }/></StyledLink>
-  </StyledBar>
+  <UserContext.Consumer>
+    {(value) => (
+    <StyledBar>
+      <StyledLink to={value.user.user_name ? '/users/edit' : '/signup'}>Childhood Cancer Directory</StyledLink>
+    </StyledBar>
+    )}
+  </UserContext.Consumer>
 );
 
 export default HomeBar;
