@@ -1,5 +1,5 @@
 # Childhood Cancer Directory
 
-https://guardiome.org/posts/childhood_cancer_directory/
+https://guardiome.org/childhood_cancer_directory/
 
   
